@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <!-- Existing head content -->
+    <script>
+        // Check for saved theme preference or use system preference
+        function setTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else {
+            // Check system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+        }
+
+        // Initial theme setup
+        setTheme();
+
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="site-title"><a href="{{ config.base_url }}">{{ config.title }}</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ config.base_url }}">Home</a></li>
+                    <li><a href="{{ get_url(path='@/about.md') }}">About</a></li>
+                    <li><a href="{{ get_url(path='@/archives.md') }}">Archives</a></li>
+                </ul>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌓</button>
+            </nav>
+        </header>
+        <main>
+            {% block content %}{% endblock content %}
+        </main>
+        <footer>
+            <p>© {{ now() | date(format="%Y") }} {{ config.extra.author }}</p>
+        </footer>
+    </div>
+</body>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Find all the pre elements
+    const codeBlocks = document.querySelectorAll('pre');
+
+    // Add copy button to each code block
+    codeBlocks.forEach(block => {
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-code-button';
+      block.appendChild(copyButton);
+
+      // Add click event
+      copyButton.addEventListener('click', () => {
+        const code = block.querySelector('code');
+        navigator.clipboard.writeText(code.textContent).then(() => {
+          // Visual feedback
+          copyButton.classList.add('copied');
+
+          // Reset after 2 seconds
+          setTimeout(() => {
+            copyButton.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  });
+</script>
+</html>

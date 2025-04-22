@@ -1,0 +1,528 @@
+// Lumon color palette
+// $clarity: #f3ffff;
+// $protocol: #afcbd6;
+// $membrane: #beb780;
+// $system: #79a6b9;
+// $sector: #20464f;
+// $archive: #0e1a26;
+//
+// Improved Palette
+/* CSS HEX */
+// --platinum: #e0e0e2ff;
+// --dim-gray: #6d676eff;
+// --indigo-dye: #2b4162ff;
+// --sandy-brown: #fa9f42ff;
+// --raisin-black: #2e2e3aff;
+// 
+// /* CSS HSL */
+// --platinum: hsla(240, 3%, 88%, 1);
+// --dim-gray: hsla(291, 3%, 42%, 1);
+// --indigo-dye: hsla(216, 39%, 28%, 1);
+// --sandy-brown: hsla(30, 95%, 62%, 1);
+// --raisin-black: hsla(240, 12%, 20%, 1);
+// 
+// /* SCSS HEX */
+// $platinum: #e0e0e2ff;
+// $dim-gray: #6d676eff;
+// $indigo-dye: #2b4162ff;
+// $sandy-brown: #fa9f42ff;
+// $raisin-black: #2e2e3aff;
+// 
+// /* SCSS HSL */
+// $platinum: hsla(240, 3%, 88%, 1);
+// $dim-gray: hsla(291, 3%, 42%, 1);
+// $indigo-dye: hsla(216, 39%, 28%, 1);
+// $sandy-brown: hsla(30, 95%, 62%, 1);
+// $raisin-black: hsla(240, 12%, 20%, 1);
+// 
+// /* SCSS RGB */
+// $platinum: rgba(224, 224, 226, 1);
+// $dim-gray: rgba(109, 103, 110, 1);
+// $indigo-dye: rgba(43, 65, 98, 1);
+// $sandy-brown: rgba(250, 159, 66, 1);
+// $raisin-black: rgba(46, 46, 58, 1);
+// 
+// /* SCSS Gradient */
+// $gradient-top: linear-gradient(0deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-right: linear-gradient(90deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-bottom: linear-gradient(180deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-left: linear-gradient(270deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-top-right: linear-gradient(45deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-bottom-right: linear-gradient(135deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-top-left: linear-gradient(225deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-bottom-left: linear-gradient(315deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+// $gradient-radial: radial-gradient(#e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Golos+Text:wght@400..900&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap');
+ :root {
+    --foreground: #0e1a26;
+    --background: #f3ffff;
+    --lighten-background: #ffffff;
+    --accent1: #afcbd6;
+    --accent2: #beb780;
+    --accent3: #79a6b9;
+    --accent4: #20464f;
+    --accent1-rgb: 175, 203, 214;
+    --accent2-rgb: 190, 183, 128;
+    --accent3-rgb: 121, 166, 185;
+    --accent4-rgb: 32, 70, 79;
+ }
+
+ [data-theme="dark"] {
+    --foreground: #f3ffff;
+    --background: #0e1a26;
+    --lighten-background: #1a3244;
+    --accent1: #20464f;
+    --accent2: #beb780;
+    --accent3: #79a6b9;
+    --accent4: #afcbd6;
+    --accent1-rgb: 32, 70, 79;
+    --accent2-rgb: 190, 183, 128;
+    --accent3-rgb: 121, 166, 185;
+    --accent4-rgb: 175, 203, 214;
+ }
+
+ #theme-toggle {
+   background: none;
+   border: none;
+   cursor: pointer;
+   font-size: 1.5rem;
+   padding: 5px;
+   vertical-align: middle;
+ }
+// Typography
+$font-mono: "IBM Plex Mono", Monaco, "Courier New", monospace;
+$font-title:  "Neuton", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-text: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-sans: "Darker Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+// Base styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+body {
+  font-family: $font-text;
+  // background-color: $clarity;
+  background-color: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-title;
+  font-weight: 500;
+  font-size: 1.5em;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  color: var(--accent4);
+}
+
+a {
+  color: var(--accent4);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: var(--accent3);
+    border-bottom-color: var(--accent2);
+  }
+}
+
+p, ul, ol {
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+// Header & Navigation
+header {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--accent1);
+}
+
+.site-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  color: var(--foreground);
+
+  a {
+    border-bottom: none;
+    color: var(--foreground);
+
+    &:hover {
+      color: var(--sector);
+    }
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin-right: 2rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a {
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        border-bottom: none;
+
+        &:hover {
+          border-bottom: 1px solid var(--accent2);
+        }
+      }
+    }
+  }
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 5px;
+  vertical-align: middle;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.theme-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+// Home page
+.intro {
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background-color: rgba(var(--accent1-rgb), 0.1);
+  border-left: 4px solid var(--accent1);
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .post-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+
+    .post-date {
+      font-family: $font-text;
+      color: var(--accent3);
+      margin-right: 1rem;
+      font-size: 0.9rem;
+      min-width: 6rem;
+    }
+  }
+}
+
+.see-all {
+  display: inline-block;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+// Single post
+.post {
+  .post-header {
+    margin-bottom: 2rem;
+
+    .post-title {
+      margin-bottom: 0.5rem;
+    }
+
+    .post-meta {
+      color: var(--accent3);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+  }
+
+  .post-content {
+    h2, h3, h4 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    pre, code {
+      font-family: $font-mono;
+      background-color: rgba(var(--accent1), 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+
+      code {
+        padding: 0;
+        background-color: transparent;
+      }
+    }
+
+    blockquote {
+      border-left: 4px solid var(--accent2);
+      padding-left: 1rem;
+      margin-left: 0;
+      font-style: italic;
+      color: var(--lighten-background);
+    }
+  }
+}
+
+// Archives page
+.archives {
+  .year-group {
+    margin-bottom: 3rem;
+
+    h2 {
+      border-bottom: 1px solid var(--accent1);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// About page - Resume-like
+.about {
+  .section {
+    margin-bottom: 2rem;
+
+    h2 {
+      border-bottom: 2px solid var(--accent2);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .skill {
+      background-color: rgba(var(--accent1), 0.2);
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .experience-item, .education-item {
+    margin-bottom: 1.5rem;
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+    }
+
+    .meta {
+      color: var(--accent3);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+// Footer
+footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--accent1);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--accent-3);
+}
+
+// Media Queries
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .site-title {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+
+    li {
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .post-item {
+    flex-direction: column;
+
+    .post-date {
+      margin-bottom: 0.2rem;
+    }
+  }
+}
+
+// Special elements - retro-futuristic touches
+.intro h2 {
+  font-family: $font-title;
+  letter-spacing: -1px;
+  position: relative;
+  display: inline-block;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), transparent);
+  }
+}
+
+.recent-posts h3, .archives h1 {
+  position: relative;
+  padding-left: 1rem;
+
+  &:before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-family: $font-title;
+  }
+}
+
+// Terminal-like code blocks - retro-futuristic effect
+pre {
+  border: 1px solid var(--accent3);
+  box-shadow: 0 2px 10px rgba(var(--background), 0.1);
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-color: rgba(var(--accent1), 0.3);
+    border-bottom: 1px solid var(--accent3);
+  }
+
+  code {
+    display: block;
+    margin-top: 20px;
+  }
+}
+
+// Add to your sass/style.scss
+
+// Code blocks styling
+pre {
+  position: relative;
+  background-color: var(--background);
+  border: 1px solid var(--accent3);
+  border-radius: 0;
+  padding: 1.5rem 1rem 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: $font-mono;
+
+  // Retro-futuristic terminal header
+  &::before {
+    content: "CODE";
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    background-color: var(--accent3);
+    color: var(--background);
+    letter-spacing: 1px;
+    font-family: $font-text;
+  }
+
+  // Add space for the copy button
+  padding-right: 3rem;
+
+  code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+// Inline code
+code:not(pre code) {
+  background-color: rgba(var(--accent1-rgb), 0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 2px;
+  font-size: 0.9em;
+}
+
+// Copy button
+.copy-code-button {
+  position: absolute;
+  top: 1.9rem;
+  right: 0.5rem;
+  background-color: var(--accent1);
+  color: var(--background);
+  border: none;
+  border-radius: 0;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: $font-text;
+  z-index: 1;
+
+  &:hover {
+    background-color: var(--accent2);
+  }
+
+  &::after {
+    content: "Copy";
+  }
+
+  &.copied::after {
+    content: "Copied!";
+  }
+}
