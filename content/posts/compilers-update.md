@@ -3,15 +3,7 @@ title : "Learning compilers - lessons learned 6 months later"
 description: "Things I learned when working on compilers"
 summary: "What happens when you start writing compilers."
 date: 2024-12-31
-render : true
-toc: true
-readTime: true
-autonumber: true
-math: false
-tags: ["compilers"]
-showTags: false
-hideBackToTop: false
-fediverse: "@clflushopt@mastodon.social"
+draft: true
 ---
 
 More than six months ago I developped an itch, I wanted to learn more about

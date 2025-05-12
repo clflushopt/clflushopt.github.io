@@ -2,8 +2,13 @@
 title = "Home"
 +++
 
-Welcome to my personal site. This is my personal webpage where I document
-some of my current projects and personal research into things like query
-execution and optimization, optimizing compilers and software performance.
+This is one of those software and programming blogs; it's title was uninspiredly
+stolen from one of my favorite [talks](https://www.destroyallsoftware.com/talks/wat "WAT by Gary Bernhardt")
+of all time.
 
-You can find my most recent posts below or browse the full archive.
+I mainly write long-form technincal deep dives into things I encountered on
+my personal research projects that often involve databases or compilers or a bit
+of both more often that not written in Rust.
+
+You can find most of my projects in my [Github](https://github.com/clflushopt).
+
