@@ -52,7 +52,7 @@
 // $gradient-top-left: linear-gradient(225deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
 // $gradient-bottom-left: linear-gradient(315deg, #e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
 // $gradient-radial: radial-gradient(#e0e0e2ff, #6d676eff, #2b4162ff, #fa9f42ff, #2e2e3aff);
-@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Golos+Text:wght@400..900&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&display=swap');
+@import 'fonts';
  :root {
     --foreground: #0e1a26;
     --background: #f3ffff;
@@ -67,30 +67,25 @@
     --accent4-rgb: 32, 70, 79;
  }
 
- [data-theme="dark"] {
-    --foreground: #f3ffff;
-    --background: #0e1a26;
-    --lighten-background: #1a3244;
-    --accent1: #20464f;
-    --accent2: #beb780;
-    --accent3: #79a6b9;
-    --accent4: #afcbd6;
-    --accent1-rgb: 32, 70, 79;
-    --accent2-rgb: 190, 183, 128;
-    --accent3-rgb: 121, 166, 185;
-    --accent4-rgb: 175, 203, 214;
+ @media (prefers-color-scheme: dark) {
+    :root {
+        --foreground: #f3ffff;
+        --background: #0e1a26;
+        --lighten-background: #1a3244;
+        --accent1: #20464f;
+        --accent2: #beb780;
+        --accent3: #79a6b9;
+        --accent4: #afcbd6;
+        --accent1-rgb: 32, 70, 79;
+        --accent2-rgb: 190, 183, 128;
+        --accent3-rgb: 121, 166, 185;
+        --accent4-rgb: 175, 203, 214;
+    }
  }
 
- #theme-toggle {
-   background: none;
-   border: none;
-   cursor: pointer;
-   font-size: 1.5rem;
-   padding: 5px;
-   vertical-align: middle;
- }
+ 
 // Typography
-$font-mono: "IBM Plex Mono", Monaco, "Courier New", monospace;
+$font-mono: "JetBrains Mono", monospace;
 $font-title:  "Neuton", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 $font-text: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 $font-sans: "Darker Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -204,21 +199,7 @@ nav {
   }
 }
 
-.theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-  padding: 5px;
-  vertical-align: middle;
-  margin-left: auto;
-  cursor: pointer;
-}
 
-.theme-toggle:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--color-primary);
-}
 
 // Home page
 .intro {
@@ -240,7 +221,7 @@ nav {
 
     .post-date {
       font-family: $font-text;
-      color: var(--accent3);
+      color: var(--accent4);
       margin-right: 1rem;
       font-size: 0.9rem;
       min-width: 6rem;
@@ -278,6 +259,7 @@ nav {
 
     pre, code {
       font-family: $font-mono;
+      font-weight: 500;
       background-color: rgba(var(--accent1), 0.1);
       padding: 0.2rem 0.4rem;
       border-radius: 3px;
@@ -476,8 +458,7 @@ pre {
     font-family: $font-text;
   }
 
-  // Add space for the copy button
-  padding-right: 3rem;
+  
 
   code {
     background-color: transparent;
@@ -497,34 +478,7 @@ code:not(pre code) {
   font-size: 0.9em;
 }
 
-// Copy button
-.copy-code-button {
-  position: absolute;
-  top: 1.9rem;
-  right: 0.5rem;
-  background-color: var(--accent1);
-  color: var(--background);
-  border: none;
-  border-radius: 0;
-  padding: 0.3rem 0.5rem;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: $font-text;
-  z-index: 1;
 
-  &:hover {
-    background-color: var(--accent2);
-  }
-
-  &::after {
-    content: "Copy";
-  }
-
-  &.copied::after {
-    content: "Copied!";
-  }
-}
 
 // Footnotes styling
 .footnotes {
