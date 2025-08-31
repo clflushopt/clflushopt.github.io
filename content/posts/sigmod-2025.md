@@ -36,7 +36,7 @@ My machine in this case my desktop equipped with a Ryzen 9950X all benchmarks an
 on it so you might have a different baseline than I did and it's also a bit tricky to compare to the open
 leaderboard but still.
 
-```c
+```c++
 // Architecture from `uname -srm`.
 #define SPC__X86_64
 

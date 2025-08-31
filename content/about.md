@@ -3,8 +3,6 @@ title = "About"
 template = "page.html"
 +++
 
-# About Me
-
 I am a Senior Software Engineer working on data infrastructure based in Canada, I like to build
 software and contribute back to OSS. I maintain [tpchgen-rs](https://github.com/clflushopt/tpchgen-rs) and
 contribute to [Datafusion](https://github.com/apache/datafusion).
