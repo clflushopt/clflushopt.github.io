@@ -2,8 +2,6 @@
 
 {% block content %}
 <div class="archives">
-    <h1>Archives</h1>
-
     {% set posts_section = get_section(path="posts/_index.md") %}
 
     {% if posts_section.pages %}
@@ -26,7 +24,7 @@
                             {% set page_year = page.date | date(format="%Y") %}
                             {% if page_year == year %}
                                 <li class="post-item">
-                                    <a href="{{ page.permalink }}">{{ page.title }} ({{ page.date | date(format="%m-%d-%y") }})</a>
+                                    <a href="{{ page.permalink }}">{{ page.title }}</a>
                                 </li>
                             {% endif %}
                         {% endif %}

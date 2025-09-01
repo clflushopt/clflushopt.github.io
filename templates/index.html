@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% set about_page = get_page(path="about.md") %}
+<section class="about-me">
+    {{ about_page.content | safe }}
+</section>
 <section class="recent-posts">
     <h1>Recent Posts</h1>
     <ul class="post-list">

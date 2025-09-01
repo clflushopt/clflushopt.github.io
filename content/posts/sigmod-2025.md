@@ -20,21 +20,13 @@ back to my other non-small projects.
 ## The work at hand.
 
 The original task description can be found [here](https://transactional.blog/sigmod-contest/2025) but
-long story short we need to write an in-memory join pipeline that has to be fast. Now, the codebase we
-have to work in is in C++ so that means I won't be very happy while doing this but since I wanted to
-finish before the submission deadline, because after the deadline the leaderboard was taken down, I wasn't
-going to port it to Rust before working on it.
+tl;dr we need to implement an in-memory join pipeline that will, part of the larger system, execute
+queries from the [JOB](https://www.vldb.org/pvldb/vol9/p204-leis.pdf) benchmark.
 
-The challenge itself constrains you to touching a single file [execute.cpp](https://github.com/SIGMOD-25-Programming-Contest/base/blob/main/src/execute.cpp)
-and you are not allowed the use of third-party libraries[^1].
+The challenge constrains your changes to be on a single file [execute.cpp](https://github.com/SIGMOD-25-Programming-Contest/base/blob/main/src/execute.cpp)
+and disallows using third-party libraries[^1].
 
-Now like every C++ projects you end up working on, chances are it won't build from the get go which was
-the case here since there's an include for `<hardware.h>` which doesn't exist in the original repo this
-was easy to fix, just write our own file with our own machine specs.
-
-My machine in this case my desktop equipped with a Ryzen 9950X all benchmarks and numbers were computed
-on it so you might have a different baseline than I did and it's also a bit tricky to compare to the open
-leaderboard but still.
+All benchmarks and tests were ran on a Ryzen 9950X machine with 64GBs of memory running on Fedora.
 
 ```c++
 // Architecture from `uname -srm`.
@@ -53,7 +45,7 @@ leaderboard but still.
 #define SPC__NUMA_NODE_DRAM_MB 61884
 
 // Obtained from `lsb_release -a`.
-#define SPC__OS "Fedora Linux 41 (KDE Plasma)"
+#define SPC__OS "Fedora Linux 41"
 
 // Obtained from: `uname -srm`.
 #define SPC__KERNEL "Linux 6.13.5-200.fc41.x86_64 x86_64"
@@ -79,9 +71,7 @@ leaderboard but still.
 #define SPC__LEVEL4_CACHE_LINESIZE
 ```
 
-Now that the code is building we can finally start tinkering about it, this will be fun !
-
-# Query execution models in database systems
+## Initial thoughts
 
 
 [^1]: I might have cheated here, so because of a lack of time since I mostly
