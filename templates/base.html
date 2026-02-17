@@ -1,34 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
+    <!--
+      Theme: set data-theme AND inject critical inline styles before
+      the stylesheet loads. This prevents the flash on navigation by
+      giving the browser correct background/color-scheme for the very
+      first paint, even before style.css arrives.
+    -->
+    <script>
+        (function() {
+            document.documentElement.classList.remove('no-js');
+            var theme = localStorage.getItem('theme');
+            if (theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                var s = document.createElement('style');
+                s.textContent = ':root{color-scheme:' + theme + '}' +
+                    'body{background:' + (theme === 'dark' ? '#1c1917' : '#f0ebe3') +
+                    ';color:' + (theme === 'dark' ? '#e7e0d6' : '#2a2420') + '}';
+                document.head.appendChild(s);
+            }
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <!-- Preload critical above-the-fold fonts -->
+    <link rel="preload" href="/fonts/darker-grotesque-v9-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/golos-text-v6-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/jetbrains-mono-v23-latin-500.woff2" as="font" type="font/woff2" crossorigin>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='favicon-16x16.png') }}">
-    <link rel="shortcut icon" href="{{ get_url(path='favicon.ico') }}">    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
-    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ get_url(path='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 class="site-title"><a href="{{ config.base_url }}">{{ config.title }}</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ config.base_url }}">Home</a></li>
-                    <li><a href="{{ get_url(path='@/archives.md') }}">Archives</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            {% block content %}{% endblock content %}
-        </main>
-        <footer>
-            <p>Built with <a href="https://getzola.org">Zola</a> © {{ now() | date(format="%Y") }}</p>
-        </footer>
-    </div>
+    <header class="sidebar-header">
+        <h1 class="site-title-vertical">
+            <a href="{{ config.base_url }}">{{ config.title }}</a>
+        </h1>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="{{ config.base_url }}">Home</a></li>
+                <li><a href="{{ get_url(path='@/archives.md') }}">Archives</a></li>
+            </ul>
+            {% include "partials/theme_toggle.html" %}
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <footer class="brutalist-footer">
+        <p>Built with <a href="https://getzola.org">Zola</a> &copy; {{ now() | date(format="%Y") }}</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            var toggle = document.getElementById('theme-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    var current = document.documentElement.getAttribute('data-theme');
+                    var isDark = current === 'dark' ||
+                        (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    var next = isDark ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                });
+            }
+
+            // Code blocks: language label + copy button in title bar
+            document.querySelectorAll('pre.giallo').forEach(function(pre) {
+                var code = pre.querySelector('code');
+                var actions = document.createElement('div');
+                actions.className = 'code-actions';
+
+                // Language label
+                var lang = code ? code.getAttribute('data-lang') : null;
+                if (lang) {
+                    var langLabel = document.createElement('span');
+                    langLabel.className = 'code-lang';
+                    langLabel.textContent = lang;
+                    actions.appendChild(langLabel);
+                }
+
+                // Copy button
+                var copyBtn = document.createElement('button');
+                copyBtn.textContent = 'Copy';
+                copyBtn.onclick = function() {
+                    navigator.clipboard.writeText(code.textContent).then(function() {
+                        copyBtn.textContent = 'Copied!';
+                        setTimeout(function() { copyBtn.textContent = 'Copy'; }, 2000);
+                    });
+                };
+                actions.appendChild(copyBtn);
+
+                pre.appendChild(actions);
+            });
+        });
+    </script>
 </body>
 </html>

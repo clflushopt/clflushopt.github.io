@@ -1,307 +1,113 @@
-/* darker-grotesque-300 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 300;
-  src: url('/fonts/darker-grotesque-v9-latin-300.woff2') format('woff2');
-}
-/* darker-grotesque-regular - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/darker-grotesque-v9-latin-regular.woff2') format('woff2');
-}
-/* darker-grotesque-500 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 500;
-  src: url('/fonts/darker-grotesque-v9-latin-500.woff2') format('woff2');
-}
-/* darker-grotesque-600 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/fonts/darker-grotesque-v9-latin-600.woff2') format('woff2');
-}
-/* darker-grotesque-700 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 700;
-  src: url('/fonts/darker-grotesque-v9-latin-700.woff2') format('woff2');
-}
-/* darker-grotesque-800 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 800;
-  src: url('/fonts/darker-grotesque-v9-latin-800.woff2') format('woff2');
-}
-/* darker-grotesque-900 - latin */
-@font-face {
-  font-family: 'Darker Grotesque';
-  font-style: normal;
-  font-weight: 900;
-  src: url('/fonts/darker-grotesque-v9-latin-900.woff2') format('woff2');
-}
+// ============================================
+// FONT STACK
+// Golos Text      — body text (sans-serif)
+// Darker Grotesque — headings (display sans)
+// JetBrains Mono  — code + UI labels (mono)
+// ============================================
 
-/* golos-text-regular - latin */
+// --- Golos Text ---
 @font-face {
+  font-display: block;
   font-family: 'Golos Text';
   font-style: normal;
   font-weight: 400;
   src: url('/fonts/golos-text-v6-latin-regular.woff2') format('woff2');
 }
-/* golos-text-500 - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'Golos Text';
   font-style: normal;
   font-weight: 500;
   src: url('/fonts/golos-text-v6-latin-500.woff2') format('woff2');
 }
-/* golos-text-600 - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'Golos Text';
   font-style: normal;
   font-weight: 600;
   src: url('/fonts/golos-text-v6-latin-600.woff2') format('woff2');
 }
-/* golos-text-700 - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'Golos Text';
   font-style: normal;
   font-weight: 700;
   src: url('/fonts/golos-text-v6-latin-700.woff2') format('woff2');
 }
-/* golos-text-800 - latin */
+
+// --- Darker Grotesque ---
 @font-face {
-  font-family: 'Golos Text';
+  font-display: swap;
+  font-family: 'Darker Grotesque';
   font-style: normal;
-  font-weight: 800;
-  src: url('/fonts/golos-text-v6-latin-800.woff2') format('woff2');
-}
-/* golos-text-900 - latin */
-@font-face {
-  font-family: 'Golos Text';
-  font-style: normal;
-  font-weight: 900;
-  src: url('/fonts/golos-text-v6-latin-900.woff2') format('woff2');
+  font-weight: 600;
+  src: url('/fonts/darker-grotesque-v9-latin-600.woff2') format('woff2');
 }
 
-/* jetbrains-mono-regular - latin */
 @font-face {
+  font-display: swap;
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/darker-grotesque-v9-latin-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: block;
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/darker-grotesque-v9-latin-800.woff2') format('woff2');
+}
+
+// --- JetBrains Mono ---
+@font-face {
+  font-display: swap;
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400;
   src: url('/fonts/jetbrains-mono-v23-latin-regular.woff2') format('woff2');
 }
-/* jetbrains-mono-italic - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'JetBrains Mono';
   font-style: italic;
   font-weight: 400;
   src: url('/fonts/jetbrains-mono-v23-latin-italic.woff2') format('woff2');
 }
-/* jetbrains-mono-500 - latin */
+
 @font-face {
+  font-display: block;
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 500;
   src: url('/fonts/jetbrains-mono-v23-latin-500.woff2') format('woff2');
 }
-/* jetbrains-mono-500italic - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'JetBrains Mono';
   font-style: italic;
   font-weight: 500;
   src: url('/fonts/jetbrains-mono-v23-latin-500italic.woff2') format('woff2');
 }
-/* jetbrains-mono-600 - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 600;
   src: url('/fonts/jetbrains-mono-v23-latin-600.woff2') format('woff2');
 }
-/* jetbrains-mono-600italic - latin */
+
 @font-face {
+  font-display: swap;
   font-family: 'JetBrains Mono';
   font-style: italic;
   font-weight: 600;
   src: url('/fonts/jetbrains-mono-v23-latin-600italic.woff2') format('woff2');
-}
-
-/* neuton-regular - latin */
-@font-face {
-  font-family: 'Neuton';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/neuton-v23-latin-regular.woff2') format('woff2');
-}
-/* neuton-italic - latin */
-@font-face {
-  font-family: 'Neuton';
-  font-style: italic;
-  font-weight: 400;
-  src: url('/fonts/neuton-v23-latin-italic.woff2') format('woff2');
-}
-/* neuton-700 - latin */
-@font-face {
-  font-family: 'Neuton';
-  font-style: normal;
-  font-weight: 700;
-  src: url('/fonts/neuton-v23-latin-700.woff2') format('woff2');
-}
-/* neuton-800 - latin */
-@font-face {
-  font-family: 'Neuton';
-  font-style: normal;
-  font-weight: 800;
-  src: url('/fonts/neuton-v23-latin-800.woff2') format('woff2');
-}
-/* caveat-regular - latin */
-@font-face {
-  font-family: 'Caveat';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/caveat-v22-latin-regular.woff2') format('woff2');
-}
-/* caveat-500 - latin */
-@font-face {
-  font-family: 'Caveat';
-  font-style: normal;
-  font-weight: 500;
-  src: url('/fonts/caveat-v22-latin-500.woff2') format('woff2');
-}
-/* caveat-600 - latin */
-@font-face {
-  font-family: 'Caveat';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/fonts/caveat-v22-latin-600.woff2') format('woff2');
-}
-/* caveat-700 - latin */
-@font-face {
-  font-family: 'Caveat';
-  font-style: normal;
-  font-weight: 700;
-  src: url('/fonts/caveat-v22-latin-700.woff2') format('woff2');
-}
-/* permanent-marker-regular - latin */
-@font-face {
-  font-family: 'Permanent Marker';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/permanent-marker-v16-latin-regular.woff2') format('woff2');
-}
-
-/* merriweather-regular - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/merriweather-v32-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 400;
-  src: url('../fonts/merriweather-v32-latin-italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-500 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 500;
-  src: url('../fonts/merriweather-v32-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-500italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 500;
-  src: url('../fonts/merriweather-v32-latin-500italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-600 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 600;
-  src: url('../fonts/merriweather-v32-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-600italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 600;
-  src: url('../fonts/merriweather-v32-latin-600italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-700 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 700;
-  src: url('../fonts/merriweather-v32-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-700italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 700;
-  src: url('../fonts/merriweather-v32-latin-700italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-800 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 800;
-  src: url('../fonts/merriweather-v32-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-800italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 800;
-  src: url('../fonts/merriweather-v32-latin-800italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-900 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: normal;
-  font-weight: 900;
-  src: url('../fonts/merriweather-v32-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* merriweather-900italic - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Merriweather';
-  font-style: italic;
-  font-weight: 900;
-  src: url('../fonts/merriweather-v32-latin-900italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }

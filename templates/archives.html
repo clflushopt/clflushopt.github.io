@@ -24,6 +24,7 @@
                             {% set page_year = page.date | date(format="%Y") %}
                             {% if page_year == year %}
                                 <li class="post-item">
+                                    <span class="post-date">{{ page.date | date(format="%b %d") }}</span>
                                     <a href="{{ page.permalink }}">{{ page.title }}</a>
                                 </li>
                             {% endif %}

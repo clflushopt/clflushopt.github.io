@@ -7,9 +7,8 @@ software and contribute back to OSS. I maintain [tpchgen-rs](https://github.com/
 contribute to [Datafusion](https://github.com/apache/datafusion).
 
 I often work on experimental and research projects like [SIGMOD contest problems](https://github.com/clflushopt/sigmod-2025),
-investigating [how CPUs behave](https://github.com/clflushopt/uarch-xyz) and compilers of all sort like
-[JIT compilers](https://github.com/clflushopt/coldbrew), [emulators for fuzzing](https://github.com/clflushopt/icepop)
-or [LLVM lifters](https://github.com/clflushopt/llvm-riscv-lifter).
+investigating [how CPUs behave](https://github.com/clflushopt/uarch-xyz) and [all](https://github.com/clflushopt/llvm-riscv-lifter) [sorts](https://github.com/clflushopt/coldbrew)
+of [compilers](https://github.com/clflushopt/icepop).
 
 In a previous life I worked on implementing cryptography libraries and numerical solvers in C++.
 
