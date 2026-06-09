@@ -1,20 +1,19 @@
 [[category]]
 name = "Systems & Performance"
 links = [
-  { title = "Paul Khuong's Blog", url = "https://pvk.ca/", description = "Performance engineering, lock-free data structures and LISPs."}
+  { title = "Paul Khuong's Blog", url = "https://pvk.ca/", description = "Performance engineering, lock-free data structures and LISPs." },
   { title = "Brendan Gregg's Blog", url = "https://www.brendangregg.com/blog/", description = "Performance engineering, eBPF, flame graphs, and Linux internals." },
   { title = "Dan Luu's Blog", url = "https://danluu.com/", description = "Empirical software engineering — benchmarks, systems, and org design." },
-  { title = "Travis Downs's Blog - Performance Matters", url = "https://travisdowns.github.io/", description = "Microarchitecture, Intel AVX and software performance principles."}
-  { title = "Webkit Blog", url = "https://webkit.org/blog", description = "Internals of JavaScriptCore's JITs, compiler backends (FTL, B3) and garbage collection."},
-  { title = "Nelson Elhage's Blog", url = "https://blog.nelhage.com/", description = "Software performance, bugs and systems."},
-  { title = "Peter Cordes's Stackoverflow", url = "https://stackoverflow.com/users/224132/peter-cordes", description = "Microarchitecture magic."}
-  { title = "Mysticial's Stackoverflow", url = "https://stackoverflow.com/users/922184/Mysticial", description = "Author of y-cruncher, microarchitecture and software performance."},
-  { title = "Peter Swell's Webpage", url = "https://www.cl.cam.ac.uk/~pes20/", description = "Relaxed-memory concurrency, x86 TSO, atomics and concurrency at the microarchitecture level."}
-  { title = "Crossbeam RFCs Wikipage", url = "https://github.com/crossbeam-rs/rfcs/wiki", description = "Everything you will ever want or need to know about concurrency, locking, and memory management within."}
-  { title = "COMSEC ETHZ", url = "https://comsec.ethz.ch/research/microarch/", description = "Microarchitecture side-channel attacks from ETH Zurich COMSEC group."}
-  { title = "Moritz Lipp's Webpage", url = "https://mlq.me/", description = "ÆPIC Leak, Spectre, Medusa and other microarchitecture security work."}
-  { title = "danwiki, the wiki of nick black", url = "https://nick-black.com/dankwiki/index.php/Hack_on", description = "Linux networking and systems implementation, io_uring, DPDK & XDP."}
-
+  { title = "Travis Downs's Blog - Performance Matters", url = "https://travisdowns.github.io/", description = "Microarchitecture, Intel AVX and software performance principles." },
+  { title = "Webkit Blog", url = "https://webkit.org/blog", description = "Internals of JavaScriptCore's JITs, compiler backends (FTL, B3) and garbage collection." },
+  { title = "Nelson Elhage's Blog", url = "https://blog.nelhage.com/", description = "Software performance, bugs and systems." },
+  { title = "Peter Cordes's Stackoverflow", url = "https://stackoverflow.com/users/224132/peter-cordes", description = "Microarchitecture magic." },
+  { title = "Mysticial's Stackoverflow", url = "https://stackoverflow.com/users/922184/Mysticial", description = "Author of y-cruncher, microarchitecture and software performance." },
+  { title = "Peter Swell's Webpage", url = "https://www.cl.cam.ac.uk/~pes20/", description = "Relaxed-memory concurrency, x86 TSO, atomics and concurrency at the microarchitecture level." },
+  { title = "Crossbeam RFCs Wikipage", url = "https://github.com/crossbeam-rs/rfcs/wiki", description = "Everything you will ever want or need to know about concurrency, locking, and memory management within." },
+  { title = "COMSEC ETHZ", url = "https://comsec.ethz.ch/research/microarch/", description = "Microarchitecture side-channel attacks from ETH Zurich COMSEC group." },
+  { title = "Moritz Lipp's Webpage", url = "https://mlq.me/", description = "ÆPIC Leak, Spectre, Medusa and other microarchitecture security work." },
+  { title = "danwiki, the wiki of nick black", url = "https://nick-black.com/dankwiki/index.php/Hack_on", description = "Linux networking and systems implementation, io_uring, DPDK & XDP." },
 ]
 
 [[category]]
@@ -28,9 +27,9 @@ links = [
 [[category]]
 name = "Compilers & PLT"
 links = [
-  { title = "Nikita Popov's Blog", url = "https://www.npopov.com/", description = "Compiler optimizations in LLVM and LLVM infrastructure."}
-  { title = "Laurence Tratt's Blog", url = "https://tratt.net/laurie/blog/", description = "Compilers, shells, JITs and more."}
-  { title = "Max Bernstein's Blog", url = "https://bernsteinbear.com/", description = "Program analysis, compiler optimizations, Python interpreter performance."}
+  { title = "Nikita Popov's Blog", url = "https://www.npopov.com/", description = "Compiler optimizations in LLVM and LLVM infrastructure." },
+  { title = "Laurence Tratt's Blog", url = "https://tratt.net/laurie/blog/", description = "Compilers, shells, JITs and more." },
+  { title = "Max Bernstein's Blog", url = "https://bernsteinbear.com/", description = "Program analysis, compiler optimizations, Python interpreter performance." },
   { title = "matklad", url = "https://matklad.github.io/", description = "Rust, IDEs, language tooling, and software design by the author of rust-analyzer." },
   { title = "Without Boats", url = "https://without.boats/blog/", description = "Deep dives into Rust language design and async runtimes." },
 ]
