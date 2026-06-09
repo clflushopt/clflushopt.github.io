@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block content %}
+{% set data = load_data(path="data/links.toml") %}
+<div class="links-page">
+    <header class="post-header">
+        <h1 class="post-title">Links</h1>
+        <p class="links-intro">A curated list of blogs, people, and resources I find worth reading.</p>
+    </header>
+
+    {% for category in data.category %}
+    <section class="links-category">
+        <h2 class="links-category-name">{{ category.name }}</h2>
+        <ul class="links-list">
+            {% for link in category.links %}
+            <li class="links-item">
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="links-title">{{ link.title }}</a>
+                {% if link.description %}
+                <span class="links-description">{{ link.description }}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</div>
+{% endblock content %}

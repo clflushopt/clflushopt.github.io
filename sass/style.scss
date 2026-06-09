@@ -671,6 +671,79 @@ ul, ol {
 }
 
 // ============================================
+// LINKS / BLOGROLL PAGE
+// ============================================
+.links-page {
+  .post-header {
+    margin-bottom: 3.5rem;
+
+    .post-title {
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border-strong);
+      padding-bottom: 1rem;
+    }
+  }
+
+  .links-intro {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+}
+
+.links-category {
+  margin-bottom: 3rem;
+
+  .links-category-name {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    margin-bottom: 1.25rem;
+    margin-top: 0;
+  }
+}
+
+.links-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.links-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.links-title {
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  border-bottom: none;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.links-description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+// ============================================
 // RESPONSIVE
 // ============================================
 @media (max-width: 768px) {
