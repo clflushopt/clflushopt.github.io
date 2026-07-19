@@ -1,826 +1,605 @@
-@import 'fonts';
+// Ported from hallmark/custom-03 tokens. Warm parchment paper, steeped
+// brown ink, hot vermilion accent (used only for hover/selection). Fraunces
+// for display, Newsreader for body, Space Mono for meta/data labels.
 
-// ============================================
-// FONT STACKS
-// ============================================
-$font-body: "Golos Text", system-ui, sans-serif;
-$font-heading: "Darker Grotesque", system-ui, sans-serif;
-$font-mono: "JetBrains Mono", ui-monospace, monospace;
-
-// ============================================
-// COLOR PALETTE — light-dark() dual theme
-// ============================================
 :root {
   color-scheme: light dark;
 
-  --bg:           light-dark(#f0ebe3, #1c1917);
-  --bg-subtle:    light-dark(#e6e0d6, #292524);
-  --text:         light-dark(#2a2420, #e7e0d6);
-  --text-muted:   light-dark(#8a7e72, #9a8e82);
-  --accent:       light-dark(#c45a3c, #e07a5f);
-  --accent-hover: light-dark(#a8462c, #eb9a84);
-  --border:       light-dark(#d4cdc4, #3d3632);
-  --border-strong: light-dark(#2a2420, #e7e0d6);
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body:    "Newsreader", Georgia, serif;
+  --font-data:    "Space Mono", ui-monospace, "Courier New", monospace;
+
+  // Palette: light values first, dark second. Dark stays in the same
+  // warm-brown family so the parchment character survives the flip —
+  // deep steeped-brown surfaces, warm ivory ink, slightly brighter accent.
+  --color-paper:       light-dark(oklch(95.5% 0.012 75), oklch(19% 0.014 55));
+  --color-paper-2:     light-dark(oklch(97% 0.010 78),   oklch(23% 0.014 55));
+  --color-paper-3:     light-dark(oklch(90% 0.015 72),   oklch(15% 0.014 55));
+  --color-ink:         light-dark(oklch(25.5% 0.018 50), oklch(92% 0.015 78));
+  --color-ink-2:       light-dark(oklch(34% 0.020 52),   oklch(80% 0.015 65));
+  --color-muted:       light-dark(oklch(46% 0.020 55),   oklch(62% 0.020 55));
+  --color-line:        light-dark(oklch(82% 0.016 70),   oklch(35% 0.014 55));
+  --color-line-2:      light-dark(oklch(74% 0.018 68),   oklch(45% 0.014 55));
+
+  --color-accent:      light-dark(oklch(52.5% 0.16 36),  oklch(68% 0.14 40));
+  --color-accent-soft: light-dark(oklch(88% 0.045 40),   oklch(42% 0.13 40));
+  --color-focus:       light-dark(oklch(48% 0.15 250),   oklch(70% 0.15 250));
+
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs:  0.75rem;
+  --space-sm:  1rem;
+  --space-md:  1.5rem;
+  --space-lg:  2rem;
+  --space-xl:  3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  --text-2xs:  0.6875rem;
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-md:   1.125rem;
+  --text-lg:   1.375rem;
+  --text-xl:   1.75rem;
+  --text-2xl:  2.25rem;
+  --text-3xl:  clamp(2.4rem, 5vw + 1rem, 4.25rem);
+
+  --lh-tight: 1.04;
+  --lh-snug:  1.28;
+  --lh-body:  1.6;
+
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 9px;
+
+  --maxw-prose: 64ch;
+  --maxw-page:  46rem;
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 320ms;
 }
 
-// Manual overrides for toggle
-[data-theme="light"] {
-  color-scheme: light;
-}
+// Explicit user override — flips color-scheme so light-dark() resolves.
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
 
-[data-theme="dark"] {
-  color-scheme: dark;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-// ============================================
-// RESET & BASE
-// ============================================
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+html, body { overflow-x: clip; }
 
 html {
-  font-size: 16px;
-  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  background: var(--color-paper);
 }
 
 body {
-  font-family: $font-body;
-  font-weight: 400;
-  background-color: var(--bg);
-  color: var(--text);
   margin: 0;
-  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-// ============================================
-// TYPOGRAPHY
-// ============================================
-h1, h2, h3, h4, h5, h6 {
-  font-family: $font-heading;
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  border-bottom: 2px solid var(--border-strong);
-  padding-bottom: 0.5rem;
-  text-wrap: balance;
+// Sticky-footer: main grows to fill remaining space so footer pins bottom
+// on short pages (archives, links) without gaps.
+main { flex: 1 0 auto; }
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
 }
 
-h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
 }
 
-h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2rem);
-  margin-top: 3rem;
-  margin-bottom: 1rem;
-}
-
-h3 {
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  border-bottom-width: 1px;
-}
-
-h4, h5, h6 {
-  font-size: 1.15rem;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  border-bottom: none;
-}
-
-// ============================================
-// LINKS
-// ============================================
 a {
-  font-weight: 500;
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.15em;
+  transition: color var(--dur) var(--ease-out);
+}
+a:hover { color: var(--color-accent); }
 
-  &:hover {
-    color: var(--accent-hover);
-    border-bottom-color: var(--accent-hover);
-  }
+code, a { overflow-wrap: break-word; }
+
+// ----------------------------------------------------------------------
+// Masthead — sticky, wordmark left, nav right
+// ----------------------------------------------------------------------
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  background: color-mix(in oklch, var(--color-paper) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-line);
 }
 
-// ============================================
-// BODY TEXT
-// ============================================
-p, ul, ol {
-  margin-bottom: 1.75rem;
-  font-weight: 400;
-  color: var(--text);
-  line-height: 1.75;
-}
-
-ul, ol {
-  padding-left: 1.5rem;
-}
-
-// ============================================
-// HEADER — brutalist bar
-// ============================================
-.sidebar-header {
-  padding: 2rem 4rem;
-  border-bottom: 2px solid var(--border-strong);
+.masthead__inner {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
-  background-color: var(--bg);
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  max-width: var(--maxw-page);
+  margin-inline: auto;
 }
 
-.site-title-vertical {
-  font-family: $font-heading;
-  font-size: 1.5rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin: 0;
-  color: var(--text);
-  border-bottom: none;
-  padding-bottom: 0;
-
-  a {
-    border-bottom: none;
-    color: var(--text);
-
-    &:hover {
-      color: var(--accent);
-    }
-  }
+.masthead h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 
-.sidebar-nav {
+.masthead h1 a {
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.masthead nav ul {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 2rem;
-
-    li {
-      margin: 0;
-
-      a {
-        font-family: $font-mono;
-        font-weight: 500;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--text-muted);
-        border: none;
-
-        &:hover {
-          color: var(--accent);
-        }
-      }
-    }
-  }
+  gap: var(--space-md);
+  list-style: none;
 }
 
-// ============================================
-// THEME TOGGLE
-// ============================================
-// Hide toggle when JS is disabled — it needs JS to function
-.no-js .theme-toggle {
-  display: none;
+// Shared mono-uppercase treatment for nav links and the theme toggle.
+// Standardized letter-spacing 0.08em (see also .post-meta, .post-date,
+// .year-group h2, .links-category__name, footer p).
+.masthead nav a,
+.theme-toggle {
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  line-height: 1;
+  transition: color var(--dur) var(--ease-out);
 }
+.masthead nav a:hover,
+.theme-toggle:hover { color: var(--color-accent); }
 
+.masthead nav a {
+  text-decoration: none;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur) var(--ease-out),
+              color var(--dur) var(--ease-out);
+}
+.masthead nav a:hover { border-color: var(--color-accent); }
+
+// Theme toggle — button reset only; typography comes from the shared rule
+// above. CSS handles icon swap so the correct label shows before JS runs.
 .theme-toggle {
   background: none;
-  border: 1px solid var(--border);
-  border-radius: 0;
-  padding: 0.4rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-
-  &:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .sun-icon {
-    display: none;
-  }
-
-  .moon-icon {
-    display: block;
-  }
-}
-
-// Dark mode via system preference: show sun, hide moon
-@media (prefers-color-scheme: dark) {
-  .theme-toggle {
-    .sun-icon { display: block; }
-    .moon-icon { display: none; }
-  }
-}
-
-// Dark mode via manual toggle
-[data-theme="dark"] {
-  .theme-toggle {
-    .sun-icon { display: block; }
-    .moon-icon { display: none; }
-  }
-}
-
-// Light mode via manual toggle (overrides system dark)
-[data-theme="light"] {
-  .theme-toggle {
-    .sun-icon { display: none; }
-    .moon-icon { display: block; }
-  }
-}
-
-// ============================================
-// MAIN CONTENT — centered, reading width
-// ============================================
-.main-content {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  min-height: 100vh;
-}
-
-// ============================================
-// HOME PAGE
-// ============================================
-.about-me {
-  margin-bottom: 5rem;
+  border: none;
   padding: 0;
-  font-size: 1.05rem;
-  line-height: 1.8;
+  cursor: pointer;
 }
 
-.recent-posts {
-  margin-bottom: 4rem;
+.theme-toggle__label--sun { display: none; }
+.theme-toggle__label--moon { display: inline; }
 
-  h1 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin-bottom: 2.5rem;
-  }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__label--moon { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle__label--sun  { display: inline; }
+}
+:root[data-theme="dark"] .theme-toggle__label--moon { display: none; }
+:root[data-theme="dark"] .theme-toggle__label--sun  { display: inline; }
+:root[data-theme="light"] .theme-toggle__label--moon { display: inline; }
+:root[data-theme="light"] .theme-toggle__label--sun  { display: none; }
+
+// ----------------------------------------------------------------------
+// Main container
+// ----------------------------------------------------------------------
+main {
+  max-width: var(--maxw-page);
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
 }
 
-// ============================================
-// POST LIST — whitespace separation
-// ============================================
+// ----------------------------------------------------------------------
+// Home — about + recent posts
+// ----------------------------------------------------------------------
+.about-me {
+  margin-bottom: var(--space-2xl);
+  max-width: var(--maxw-prose);
+}
+
+.about-me p { margin-bottom: var(--space-sm); }
+
 .post-list {
   list-style: none;
-  margin: 0;
-  padding: 0;
-
-  .post-item {
-    margin-bottom: 2.5rem;
-    padding: 0;
-
-    a {
-      font-family: $font-body;
-      font-weight: 600;
-      font-size: 1.1rem;
-      display: block;
-      margin-bottom: 0.25rem;
-      color: var(--text);
-      border-bottom: none;
-
-      &:hover {
-        color: var(--accent);
-      }
-    }
-
-    .post-date {
-      font-family: $font-mono;
-      font-weight: 400;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      display: block;
-    }
-  }
+  display: grid;
+  gap: var(--space-lg);
 }
 
-.see-all {
-  display: inline-block;
-  margin-top: 1.5rem;
-  font-family: $font-mono;
-  font-weight: 500;
-  font-size: 0.75rem;
+.post-item {
+  display: grid;
+  gap: var(--space-3xs);
+}
+
+.post-date {
+  font-family: var(--font-data);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-
-  &:hover {
-    color: var(--accent);
-  }
+  color: var(--color-muted);
 }
 
-// ============================================
-// SINGLE POST
-// ============================================
-.post {
-  .post-header {
-    margin-bottom: 3.5rem;
-    padding: 0;
-
-    .post-title {
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.05;
-      border-bottom: 2px solid var(--border-strong);
-      padding-bottom: 1rem;
-    }
-
-    .post-meta {
-      font-family: $font-mono;
-      color: var(--text-muted);
-      font-size: 0.7rem;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-  }
-
-  .post-content {
-    h2, h3, h4 {
-      margin-top: 3rem;
-      margin-bottom: 1.5rem;
-    }
-
-    // Code blocks — editor view
-    pre.giallo {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0;
-      margin: 1.75rem 0;
-      overflow: hidden;
-      font-family: $font-mono;
-      position: relative;
-
-      // Title bar with traffic lights
-      &::before {
-        content: "";
-        display: block;
-        height: 2rem;
-        border-bottom: 1px solid var(--border);
-        background-color: light-dark(rgba(0,0,0,0.04), rgba(255,255,255,0.04));
-        background-image:
-          radial-gradient(circle 4px at 16px 50%, light-dark(#ee6a5f, #ff5f57) 4px, transparent 4.5px),
-          radial-gradient(circle 4px at 32px 50%, light-dark(#f5bd4f, #febc2e) 4px, transparent 4.5px),
-          radial-gradient(circle 4px at 48px 50%, light-dark(#61c454, #28c840) 4px, transparent 4.5px);
-        background-repeat: no-repeat;
-      }
-
-      code {
-        display: block;
-        background-color: transparent;
-        padding: 0.75rem 1rem;
-        border: none;
-        font-size: 0.8rem;
-        line-height: 1;
-        overflow-x: auto;
-        counter-reset: line;
-
-        // Line numbers
-        .giallo-l {
-          display: block;
-          counter-increment: line;
-
-          &::before {
-            content: counter(line);
-            display: inline-block;
-            width: 2.5em;
-            margin-right: 1em;
-            text-align: right;
-            color: var(--text-muted);
-            opacity: 0.4;
-            font-size: 0.75rem;
-            user-select: none;
-          }
-        }
-      }
-    }
-
-    // Fallback for non-giallo pre blocks
-    pre:not(.giallo) {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin: 1.75rem 0;
-      overflow-x: auto;
-      font-family: $font-mono;
-      background-color: var(--bg-subtle);
-
-      code {
-        background-color: transparent;
-        padding: 0;
-        border: none;
-        font-size: 0.8rem;
-        line-height: 1.6;
-      }
-    }
-
-    // Title bar actions: language label swaps to copy button on hover
-    .code-actions {
-      position: absolute;
-      top: 0;
-      right: 0.5rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      z-index: 10;
-      cursor: pointer;
-
-      .code-lang,
-      button {
-        font-family: $font-mono;
-        font-size: 0.6rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-muted);
-      }
-
-      .code-lang {
-        opacity: 0.6;
-      }
-
-      button {
-        background: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        display: none;
-      }
-
-      &:hover {
-        .code-lang {
-          display: none;
-        }
-
-        button {
-          display: block;
-          opacity: 0.6;
-
-          &:hover {
-            opacity: 1;
-            color: var(--accent);
-          }
-        }
-      }
-    }
-
-    // Inline code
-    code:not(pre code) {
-      background-color: var(--bg-subtle);
-      color: var(--text);
-      padding: 0.1rem 0.35rem;
-      border-radius: 4px;
-      font-weight: 500;
-      font-size: 0.85em;
-      font-family: $font-mono;
-    }
-
-    // Blockquotes — terracotta accent, bohemian warmth
-    blockquote {
-      margin: 2rem 0;
-      padding: 0 0 0 1.5rem;
-      border-left: 3px solid var(--accent);
-      font-size: 1.05rem;
-      font-weight: 400;
-      font-style: italic;
-      color: var(--text-muted);
-
-      p {
-        margin-bottom: 1rem;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    // Images
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 2rem 0;
-    }
-
-    // Horizontal rules
-    hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 3rem 0;
-    }
-
-    // Tables
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 2rem 0;
-      font-size: 0.9rem;
-
-      th, td {
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border);
-        text-align: left;
-      }
-
-      th {
-        font-family: $font-mono;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 600;
-        background-color: var(--bg-subtle);
-      }
-    }
-  }
-}
-
-// ============================================
-// ARCHIVES — grid layout
-// ============================================
-.archives {
-  .year-group {
-    margin-bottom: 4rem;
-    padding: 0;
-
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .post-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem 3rem;
-
-      .post-item {
-        padding: 0;
-        margin-bottom: 0;
-
-        .post-date {
-          font-size: 0.65rem;
-          font-weight: 400;
-          color: var(--text-muted);
-          margin-bottom: 0.25rem;
-        }
-
-        a {
-          font-size: 0.95rem;
-        }
-      }
-    }
-  }
-}
-
-// ============================================
-// FOOTER — minimal, monospace
-// ============================================
-.brutalist-footer {
-  margin-top: 6rem;
-  padding: 2.5rem 4rem;
-  border-top: 2px solid var(--border-strong);
-  font-family: $font-mono;
-  font-size: 0.65rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-align: center;
-  color: var(--text-muted);
-
-  a {
-    color: var(--text-muted);
-
-    &:hover {
-      color: var(--accent);
-    }
-  }
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-// ============================================
-// FOOTNOTES
-// ============================================
-.footnotes {
-  margin-top: 4rem;
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-}
-
-.footnotes-list {
-  padding-left: 2rem;
-  list-style-position: outside;
-
-  li {
-    margin: 1rem 0;
-    padding-left: 0.5rem;
-
-    p {
-      display: inline;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-  }
-}
-
-.footnote-reference {
-  font-family: $font-mono;
+.post-item > a {
+  font-family: var(--font-display);
   font-weight: 500;
-  font-size: 0.7rem;
-  position: relative;
-  top: -0.5em;
-  color: var(--accent);
+  font-size: var(--text-lg);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
   text-decoration: none;
-  border-bottom: none;
+  color: var(--color-ink);
+}
+.post-item > a:hover { color: var(--color-accent); }
 
-  &:hover {
-    color: var(--accent-hover);
-  }
+.all-posts {
+  display: inline-block;
+  margin-top: var(--space-xl);
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--color-line-2);
+  transition: color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
+}
+.all-posts:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
-// ============================================
-// LINKS / BLOGROLL PAGE
-// ============================================
-.links-page {
-  .post-header {
-    margin-bottom: 3.5rem;
-
-    .post-title {
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-      border-bottom: 2px solid var(--border-strong);
-      padding-bottom: 1rem;
-    }
-  }
-
-  .links-intro {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-bottom: 0;
-  }
+// ----------------------------------------------------------------------
+// Archives — year-grouped
+// ----------------------------------------------------------------------
+.archives {
+  display: grid;
+  gap: var(--space-2xl);
 }
 
-.links-category {
-  margin-bottom: 3rem;
+.year-group {
+  display: grid;
+  gap: var(--space-md);
+}
 
-  .links-category-name {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    margin-bottom: 1.25rem;
-    margin-top: 0;
-  }
+.year-group > h2 {
+  font-family: var(--font-data);
+  font-weight: 400;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+
+// ----------------------------------------------------------------------
+// Post — article layout
+// ----------------------------------------------------------------------
+.post-header {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.post-meta {
+  font-family: var(--font-data);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--space-md);
+}
+
+.post-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+// Prose column: children constrained individually so figures/diagrams can
+// break out to the full main container width without a wrapper element.
+.post-content > p,
+.post-content > h2,
+.post-content > h3,
+.post-content > h4,
+.post-content > ul,
+.post-content > ol,
+.post-content > blockquote,
+.post-content > hr,
+.post-content > .footnote-definition,
+.post-content > .footnotes {
+  max-width: var(--maxw-prose);
+}
+
+.post-content > * + * { margin-top: var(--space-md); }
+.post-content > * + figure.diagram,
+.post-content > figure.diagram + * { margin-top: var(--space-2xl); }
+.post-content p { margin-bottom: 0; }
+
+.post-content h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-xl);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-sm);
+}
+
+.post-content h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lg);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.005em;
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.post-content blockquote {
+  margin: var(--space-lg) 0;
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-line-2);
+  color: var(--color-ink-2);
+  font-style: italic;
+}
+
+.post-content ul,
+.post-content ol {
+  padding-left: var(--space-lg);
+  list-style: revert;
+}
+
+.post-content li + li { margin-top: var(--space-2xs); }
+
+.post-content hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: var(--space-xl) 0;
+}
+
+.footnote-definition {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  margin-top: var(--space-md);
+}
+.footnote-definition p { display: inline; }
+
+// ----------------------------------------------------------------------
+// Links page — newspaper directory. Category eyebrow above a two-column
+// dl (title left, description right). At narrow widths the dl collapses
+// to a stacked list.
+// ----------------------------------------------------------------------
+// Page lede — italic serif intro line used on non-post pages
+// (Archives, Links) below the h1. Keeps the header treatment coherent
+// across templates without borrowing post-meta.
+.post-lede {
+  margin-top: var(--space-md);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-md);
+  color: var(--color-muted);
+  max-width: var(--maxw-prose);
+}
+
+.links-directory {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.links-category__name {
+  font-family: var(--font-data);
+  font-weight: 400;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-bottom: var(--space-md);
 }
 
 .links-list {
-  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
+  align-items: baseline;
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 }
 
-.links-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border);
+.links-item__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-base);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.005em;
+}
 
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+.links-item__title a {
+  text-decoration: none;
+  color: var(--color-ink);
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
+}
+.links-item__title a:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.links-item__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  line-height: var(--lh-body);
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .links-list {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-2xs);
+  }
+  .links-item__desc {
+    margin-bottom: var(--space-md);
   }
 }
 
-.links-title {
-  font-family: $font-body;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--text);
-  border-bottom: none;
-
-  &:hover {
-    color: var(--accent);
-  }
-}
-
-.links-description {
-  font-size: 0.875rem;
-  color: var(--text-muted);
+// ----------------------------------------------------------------------
+// Code — recessed parchment well, editorial callout stripe on the left.
+// !important on background overrides syntect's inline #FFFFFF.
+// ----------------------------------------------------------------------
+pre {
+  background: var(--color-paper-3) !important;
+  color: var(--color-ink) !important;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin: var(--space-lg) 0;
+  overflow-x: auto;
+  font-family: var(--font-data);
+  font-size: var(--text-sm);
   line-height: 1.6;
+  box-shadow: 0 2px 12px light-dark(
+    oklch(30% 0.03 55 / 0.08),
+    oklch(0% 0 0 / 0.35)
+  );
 }
 
-// ============================================
-// RESPONSIVE
-// ============================================
-@media (max-width: 768px) {
-  html {
-    font-size: 15px;
+
+// All code blocks share one width so they read as a coherent visual
+// element rather than a set of blocks that resize per snippet. Sized
+// wider than the prose column, capped at viewport minus a small gutter
+// on narrow screens. Centered on the viewport via the standard
+// left:50% + translateX(-50%) trick.
+.post-content > pre {
+  width: min(52rem, calc(100vw - 2rem));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+:not(pre) > code {
+  background: var(--color-paper-3);
+  border-radius: var(--radius-xs);
+  padding: 0.05em 0.35em;
+  font-family: var(--font-data);
+  font-size: 0.88em;
+}
+
+// ----------------------------------------------------------------------
+// Diagrams — full-width banners, breaks out of the prose column
+// ----------------------------------------------------------------------
+figure.diagram {
+  margin: var(--space-2xl) 0;
+}
+
+figure.diagram > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--color-ink);
+  max-width: 100%;
+}
+
+figure.diagram .buffer-band {
+  fill: var(--color-paper-3);
+}
+
+figure.diagram figcaption {
+  margin: var(--space-sm) auto 0;
+  max-width: var(--maxw-prose);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+figure.diagram figcaption code {
+  font-style: normal;
+}
+
+// ----------------------------------------------------------------------
+// Footer
+// ----------------------------------------------------------------------
+body > footer {
+  background: var(--color-paper-3);
+  border-top: 1px solid var(--color-line-2);
+  margin-top: var(--space-3xl);
+}
+
+body > footer p {
+  max-width: var(--maxw-page);
+  margin-inline: auto;
+  padding: var(--space-lg);
+  font-family: var(--font-data);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+body > footer a {
+  color: var(--color-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-line-2);
+}
+body > footer a:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+// ----------------------------------------------------------------------
+// Responsive
+// ----------------------------------------------------------------------
+@media (max-width: 40rem) {
+  .masthead__inner,
+  main {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
   }
+  .masthead nav ul { gap: var(--space-sm); }
+  .post-title { font-size: var(--text-xl); }
+  body > footer p { padding: var(--space-md); }
+}
 
-  .sidebar-header {
-    padding: 1.5rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .site-title-vertical {
-    font-size: 1.25rem;
-  }
-
-  .sidebar-nav {
-    width: 100%;
-
-    ul {
-      gap: 1.5rem;
-
-      li a {
-        font-size: 0.65rem;
-      }
-    }
-  }
-
-  .main-content {
-    padding: 3rem 1.5rem;
-  }
-
-  .brutalist-footer {
-    padding: 2rem 1.5rem;
-  }
-
-  .post-list .post-item {
-    margin-bottom: 2rem;
-
-    a {
-      font-size: 1rem;
-    }
-  }
-
-  .post .post-header {
-    .post-title {
-      font-size: clamp(1.5rem, 6vw, 2rem);
-    }
-  }
-
-  .archives .year-group {
-    h2 {
-      font-size: 1.25rem;
-    }
-
-    .post-list {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-  }
-
-  .post .post-content {
-    pre.giallo code {
-      padding: 0.5rem 0.75rem;
-      font-size: 0.75rem;
-    }
-
-    pre:not(.giallo) {
-      padding: 0.75rem 1rem;
-      font-size: 0.75rem;
-    }
-
-    blockquote {
-      padding: 0 0 0 1rem;
-      font-size: 0.95rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

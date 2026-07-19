@@ -1,7 +1,7 @@
 # The URL the site will be built for
 base_url = "/"
-title = "Software must die."
-description = "Personal website of Achraf B."
+title = "Opinions on Software."
+description = "Ramblings on databases, compilers and software matters."
 
 # Configure the local theme.
 
@@ -16,8 +16,8 @@ bottom_footnotes = true
 smart_punctuation = true
 
 [markdown.highlighting]
-light_theme = "gruvbox-light-soft"
-dark_theme = "gruvbox-dark-soft"
+light_theme = "github-light"
+dark_theme = "ayu-dark"
 
 [extra]
 # Put all your custom variables here

@@ -1,6 +1,5 @@
 +++
 title = "Archives"
+description = "All posts, chronologically ordered."
 template = "archives.html"
 +++
-
-All posts, chronologically ordered.
