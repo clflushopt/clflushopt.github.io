@@ -22,6 +22,8 @@ links = [
   { title = "Andy Pavlo's Blog", url = "https://www.cs.cmu.edu/~pavlo/blog/", description = "Database internals, research commentary, and DBMS history." },
   { title = "Alex Petrov's Blog", url = "https://medium.com/@ifesdjeen", description = "Storage engines, B-trees, LSM trees, and distributed systems." },
   { title = "Jessy Jiryu Davis's Blog", url = "https://emptysqua.re/", description = "Distributed Systems, correctness, zen buddhism and MongoDB."},
+  { title = "Database Architects", url = "https://databasearchitects.blogspot.com/", description = "Group blog on query processing, storage and systems research; regular posts from Thomas Neumann and Viktor Leis." },
+  { title = "Murat Demirbas's Blog", url = "https://muratbuffalo.blogspot.com/", description = "Distributed systems paper reviews, TLA+ specifications and research commentary." },
 ]
 
 [[category]]
@@ -38,6 +40,8 @@ links = [
 name = "Mathematics & CS Theory"
 links = [
   { title = "Jeremy Kun's Math Intersect Programming", url = "https://jeremykun.com/", description = "Algorithms, cryptography, and mathematics explained through code." },
+  { title = "Scott Aaronson (Shtetl-Optimized)", url = "https://scottaaronson.blog/", description = "Quantum complexity, computer science philosophy and mathematical curiosities." },
+  { title = "Computational Complexity", url = "https://blog.computationalcomplexity.org/", description = "Lance Fortnow and Bill Gasarch on complexity theory, algorithms and CS research." },
 ]
 
 [[category]]
