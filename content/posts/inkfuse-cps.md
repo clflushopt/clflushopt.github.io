@@ -1,7 +1,7 @@
 +++
 title = "Inkfuse, Continuations and Query Compilation"
 description = "Notes on continuation-passing style and where it hides in compiled databases."
-date = 2026-06-09
+date = 2026-07-18
 
 tags = ["databases", "compilers"]
 +++
