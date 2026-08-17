@@ -6,7 +6,7 @@
 <article class="post">
     <header class="post-header">
         <div class="post-meta">
-            <time>{{ page.date | default(value=now()) | date(format="%B %d, %Y") }}</time>
+            <time>{{ page.date | default(value=now()) | date(format="%B %d, %Y") }}</time> · {{ page.reading_time }} min read
         </div>
         <h1 class="post-title">{{ page.title }}</h1>
         {% if page.description %}<p class="post-lede">{{ page.description }}</p>{% endif %}
