@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block content %}
+{% set data = load_data(path="data/works.toml") %}
+<article class="post">
+<header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.description %}<p class="post-lede">{{ page.description }}</p>{% endif %}
+</header>
+<ul class="works-list">
+    {% for item in data.project %}
+    <li class="works-item">
+        <span class="works-item__glyph" aria-hidden="true"></span>
+        <a class="works-item__title" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+        <span class="works-item__meta">{{ item.lang }}{% if item.stars %} · {{ item.stars }}★{% endif %}</span>
+        <p class="works-item__desc">{{ item.description }}</p>
+    </li>
+    {% endfor %}
+</ul>
+</article>
+{% endblock content %}

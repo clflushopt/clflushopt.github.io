@@ -476,6 +476,56 @@ main {
   }
 }
 
+// ------------------------------------------------------------------------
+// Works page — repo rows with a small square glyph, like a Finder list
+// ------------------------------------------------------------------------
+.works-list { list-style: none; display: grid; }
+
+.works-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-3xs);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-line-2);
+}
+
+.works-item__glyph {
+  width: 0.55em;
+  height: 0.55em;
+  border: 1.5px solid var(--color-ink);
+  align-self: center;
+  flex: none;
+}
+
+.works-item__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-md);
+  text-decoration: none;
+  color: var(--color-ink);
+}
+.works-item__title:hover { color: var(--color-accent); }
+
+.works-item__meta {
+  font-family: var(--font-data);
+  font-size: var(--text-2xs);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.works-item__desc {
+  grid-column: 2 / -1;
+  color: var(--color-ink-2);
+  max-width: 34rem;
+}
+
+@media (max-width: 34rem) {
+  .works-item { grid-template-columns: auto 1fr; }
+  .works-item__meta { grid-column: 2; justify-self: start; }
+}
+
 // ----------------------------------------------------------------------
 // Code — recessed parchment well, editorial callout stripe on the left.
 // !important on background overrides syntect's inline #FFFFFF.

@@ -11,6 +11,10 @@ compile_sass = true
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = false
 
+# Whether to generate an RSS feed at /rss.xml, covering all posts
+generate_feeds = true
+feed_filenames = ["rss.xml"]
+
 [markdown]
 bottom_footnotes = true
 smart_punctuation = true

@@ -1,0 +1,69 @@
+[[project]]
+title = "tpcgen-rs"
+url = "https://github.com/datafusion-contrib/tpcgen-rs"
+lang = "Rust"
+stars = 256
+description = "The fastest TPC-H & TPC-DS data generator around, now maintained under datafusion-contrib and used across the DataFusion ecosystem."
+
+[[project]]
+title = "coldbrew"
+url = "https://github.com/clflushopt/coldbrew"
+lang = "Rust"
+stars = 26
+description = "A tracing JIT compiler and runtime for a subset of the JVM."
+
+[[project]]
+title = "compiler-examples"
+url = "https://github.com/clflushopt/compiler-examples"
+lang = "Python"
+stars = 6
+description = "An implementation-oriented cookbook for compiler writers."
+
+[[project]]
+title = "uarch-xyz"
+url = "https://github.com/clflushopt/uarch-xyz"
+lang = "Python"
+stars = 4
+description = "An overview of microarchitecture probing and exploitation."
+
+[[project]]
+title = "glouton"
+url = "https://github.com/clflushopt/glouton"
+lang = "Rust"
+stars = 3
+description = "A mini optimizing compiler for a subset of the C0 language."
+
+[[project]]
+title = "glint.java"
+url = "https://github.com/clflushopt/glint.java"
+lang = "Java"
+stars = 2
+description = "A mini query engine with vectorized, data-driven code generation and Arrow & Parquet support."
+
+[[project]]
+title = "llvm-riscv-lifter"
+url = "https://github.com/clflushopt/llvm-riscv-lifter"
+lang = "C++"
+stars = 2
+description = "Building dynamic binary translation systems by lifting RISC-V to LLVM IR and running it through OrcJIT."
+
+[[project]]
+title = "eocene"
+url = "https://github.com/clflushopt/eocene"
+lang = "Rust"
+stars = 2
+description = "A demo of the Volcano iterator model."
+
+[[project]]
+title = "copy-and-patch-jit"
+url = "https://github.com/clflushopt/copy-and-patch-jit"
+lang = "C++"
+stars = 1
+description = "A demo of stencil-based copy-and-patch JIT compilation."
+
+[[project]]
+title = "icepop"
+url = "https://github.com/clflushopt/icepop"
+lang = "Rust"
+stars = 1
+description = "A RISC-V (RV64I) emulator with JIT support."
