@@ -7,7 +7,7 @@ draft = false
 tags = ["databases", "compilers"]
 +++
 
-In the [last post](/posts/inkfuse-cps/) I argued that the difference
+In the [last post](https://deferworks.org/posts/inkfuse-cps/) I argued that the difference
 between a HyPer-style compiled pipeline and Inkfuse's precompiled
 fragments comes down to which continuations get reified before
 runtime and which get inlined away. The post itself sparked a discussion
@@ -135,7 +135,7 @@ This post is an attempt to name these axes. The claim is that the execution para
 around are *schedules* of one declarative suboperator program[^program], and that the schedule lives
 on the edges of the plan rather than the nodes. But I also want to keep the claim from staying too abstract
 so in this post I also describe a small enough compiler that represents the IR, schedules
-a fragments library and a JIT. The full compiler can be found in [schedules.py](/code/schedules.py).
+a fragments library and a JIT. The full compiler can be found in [schedules.py](https://deferworks.org/code/schedules.py).
 
 [^program]: I am fairly sure with some extra effort one can describe this
             as an algebra and work out the formal details.
@@ -864,7 +864,7 @@ before and been wrong about which part mattered.
 ## References
 
 * The walkthrough compiler from this post:
-  [schedules.py](/code/schedules.py).
+  [schedules.py](https://deferworks.org/code/schedules.py).
 * Tim Gubner, Peter Boncz, [Charting the Design Space of Query
   Execution using VOILA](https://www.vldb.org/pvldb/vol14/p1067-gubner.pdf),
   PVLDB 14.
@@ -898,4 +898,4 @@ before and been wrong about which part mattered.
   Ask](https://db.cs.cmu.edu/papers/2018/p2209-kersten.pdf), PVLDB 11.
 * The [Inkfuse
   paper](https://www.cs.cit.tum.de/fileadmin/w00cfj/dis/papers/inkfuse.pdf),
-  and the [previous post](/posts/inkfuse-cps/) on it.
+  and the [previous post](https://deferworks.org/posts/inkfuse-cps/) on it.

@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Space+Mono:wght@400&display=swap">
     <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
-    <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ config.base_url ~ "rss.xml" }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path="rss.xml") }}">
 </head>
 <body>
     <header class="masthead">
@@ -53,7 +53,7 @@
     </main>
 
     <footer>
-        <p>Built with <a href="https://getzola.org">Zola</a> &copy; {{ now() | date(format="%Y") }} &middot; <a href="{{ config.base_url ~ "rss.xml" }}">rss</a></p>
+        <p>Built with <a href="https://getzola.org">Zola</a> &copy; {{ now() | date(format="%Y") }} &middot; <a href="{{ get_url(path="rss.xml") }}">rss</a></p>
     </footer>
     <script>
       (function () {
