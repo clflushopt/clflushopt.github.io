@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "math": "node scripts/render-math.mjs"
+  },
+  "devDependencies": {
+    "katex": "0.18.9"
+  }
+}

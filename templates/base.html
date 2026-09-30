@@ -25,6 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Space+Mono:wght@400&display=swap">
     <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+    {% block extra_head %}{% endblock extra_head %}
     <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path="rss.xml") }}">
 </head>
 <body>
@@ -38,9 +39,10 @@
                     <li><a href="{{ get_url(path='@/works.md') }}">works</a></li>
                     <li><a href="{{ get_url(path='@/links.md') }}">links</a></li>
                     <li>
-                        <button class="theme-toggle" type="button" aria-label="Toggle color scheme">
-                            <span class="theme-toggle__label theme-toggle__label--moon" aria-hidden="true">dark</span>
-                            <span class="theme-toggle__label theme-toggle__label--sun" aria-hidden="true">light</span>
+                        <button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+                            <span class="theme-toggle__track">
+                                <span class="theme-toggle__thumb" aria-hidden="true"></span>
+                            </span>
                         </button>
                     </li>
                 </ul>
@@ -59,14 +61,20 @@
       (function () {
         var btn = document.querySelector('.theme-toggle');
         if (!btn) return;
+        function resolved() {
+          var t = document.documentElement.getAttribute('data-theme');
+          if (t === 'light' || t === 'dark') return t;
+          return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function sync() {
+          btn.setAttribute('aria-checked', resolved() === 'dark' ? 'true' : 'false');
+        }
+        sync();
         btn.addEventListener('click', function () {
-          var current = document.documentElement.getAttribute('data-theme');
-          if (!current) {
-            current = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-          }
-          var next = current === 'dark' ? 'light' : 'dark';
+          var next = resolved() === 'dark' ? 'light' : 'dark';
           document.documentElement.setAttribute('data-theme', next);
           try { localStorage.setItem('theme', next); } catch (e) {}
+          sync();
         });
       })();
     </script>

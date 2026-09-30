@@ -1,0 +1,10 @@
+{% component toc_list(toc) -%}
+<ul>
+  {%- for h in toc %}
+  <li>
+    <a href="#{{ h.id }}">{{ h.title | safe }}</a>
+    {%- if h.children | length > 0 %}{{ <toc_list toc={h.children} /> }}{% endif %}
+  </li>
+  {%- endfor %}
+</ul>
+{%- endcomponent toc_list %}

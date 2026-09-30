@@ -56,6 +56,20 @@
   --maxw-prose: 64ch;
   --maxw-page:  46rem;
 
+  // Code listings (see "Code" below): wider than the text column and
+  // centered on it, capped by the viewport on narrow screens.
+  --code-width: 56rem;
+
+  // Syntax colors, all warm so code sits in the same parchment-and-ink
+  // world as the prose: vermilion keywords (the site accent), sepia types,
+  // amber constants, olive strings, pencil-grey comments, ink for the rest.
+  --code-comment: var(--color-muted);
+  --code-keyword: var(--color-accent);
+  --code-type:    light-dark(oklch(40% 0.06 55),  oklch(82% 0.05 70));
+  --code-number:  light-dark(oklch(50% 0.12 62),  oklch(79% 0.11 70));
+  --code-string:  light-dark(oklch(46% 0.09 100), oklch(80% 0.09 100));
+  --code-fn:      var(--color-ink);
+
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --dur: 320ms;
 }
@@ -156,61 +170,95 @@ code, a { overflow-wrap: break-word; }
 
 .masthead nav ul {
   display: flex;
+  align-items: center;
   gap: var(--space-md);
   list-style: none;
 }
 
-// Shared mono-uppercase treatment for nav links and the theme toggle.
+// Shared mono-uppercase treatment for nav links.
 // Standardized letter-spacing 0.08em (see also .post-meta, .post-date,
 // .year-group h2, .links-category__name, footer p).
-.masthead nav a,
-.theme-toggle {
+.masthead nav a {
   font-family: var(--font-data);
   font-size: var(--text-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-ink-2);
   line-height: 1;
-  transition: color var(--dur) var(--ease-out);
-}
-.masthead nav a:hover,
-.theme-toggle:hover { color: var(--color-accent); }
-
-.masthead nav a {
   text-decoration: none;
   white-space: nowrap;
   padding-bottom: 2px;
   border-bottom: 1px solid transparent;
-  transition: border-color var(--dur) var(--ease-out),
-              color var(--dur) var(--ease-out);
+  transition: color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
 }
-.masthead nav a:hover { border-color: var(--color-accent); }
+.masthead nav a:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
 
-// Theme toggle — button reset only; typography comes from the shared rule
-// above. CSS handles icon swap so the correct label shows before JS runs.
+// Theme toggle — an actual switch, not a text swap. The state that matters
+// (data-theme, plus the color-scheme meta + darkreader-lock in <head>) is
+// what tells extensions like Dark Reader "this page already has a native
+// dark mode, don't double it" — this is just the on-screen control for it.
 .theme-toggle {
+  display: inline-flex;
+  align-items: center;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
 
-.theme-toggle__label--sun { display: none; }
-.theme-toggle__label--moon { display: inline; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle__label--moon { display: none; }
-  :root:not([data-theme="light"]) .theme-toggle__label--sun  { display: inline; }
+.theme-toggle__track {
+  position: relative;
+  display: inline-block;
+  width: 1.75rem;
+  height: 0.875rem;
+  border-radius: 999px;
+  background: var(--color-line-2);
+  border: 1px solid var(--color-line);
+  transition: background var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
 }
-:root[data-theme="dark"] .theme-toggle__label--moon { display: none; }
-:root[data-theme="dark"] .theme-toggle__label--sun  { display: inline; }
-:root[data-theme="light"] .theme-toggle__label--moon { display: inline; }
-:root[data-theme="light"] .theme-toggle__label--sun  { display: none; }
+
+.theme-toggle__thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: calc(0.875rem - 4px);
+  height: calc(0.875rem - 4px);
+  border-radius: 50%;
+  background: var(--color-paper);
+  box-shadow: 0 1px 2px light-dark(oklch(30% 0.03 55 / 0.25), oklch(0% 0 0 / 0.5));
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.theme-toggle:hover .theme-toggle__track { border-color: var(--color-accent); }
+
+.theme-toggle[aria-checked="true"] .theme-toggle__track {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.theme-toggle[aria-checked="true"] .theme-toggle__thumb {
+  transform: translateX(1rem);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
 
 // ----------------------------------------------------------------------
 // Main container
 // ----------------------------------------------------------------------
 main {
+  // Explicit width: main is a flex item of body and its auto side margins
+  // switch off stretching, so without this it sizes to its widest
+  // unbreakable content (a long code line) and overflows narrow screens.
+  width: 100%;
   max-width: var(--maxw-page);
   margin-inline: auto;
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
@@ -299,6 +347,68 @@ main {
 
 
 // ----------------------------------------------------------------------
+// Post table of contents — sticky rail in the right margin, generated
+// from Zola's auto-built page.toc. Wide viewports only: below the
+// threshold there isn't room for it beside the prose column without
+// crowding it, so it's simply absent rather than collapsed/hidden behind
+// a toggle.
+// ----------------------------------------------------------------------
+.post-toc {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .post-toc {
+    display: block;
+    position: fixed;
+    top: 6rem;
+    // Cleared against the right edge of code listings, which are wider
+    // than the text column, not against the text column itself.
+    left: calc(50% + var(--code-width) / 2 + var(--space-lg));
+    width: 14rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    font-family: var(--font-data);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    z-index: 10;
+  }
+}
+
+.post-toc__label {
+  font-size: var(--text-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.post-toc ul {
+  list-style: none;
+}
+
+.post-toc li > ul {
+  padding-left: var(--space-sm);
+}
+
+.post-toc a {
+  display: block;
+  padding: 0.2rem 0 0.2rem var(--space-2xs);
+  color: var(--color-ink-2);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
+}
+
+.post-toc a:hover { color: var(--color-ink); }
+
+.post-toc a.is-active {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+
+// ----------------------------------------------------------------------
 // Post — article layout
 // ----------------------------------------------------------------------
 .post-header {
@@ -346,6 +456,35 @@ main {
 .post-content > * + figure.diagram,
 .post-content > figure.diagram + * { margin-top: var(--space-2xl); }
 .post-content p { margin-bottom: 0; }
+
+// Justified body text. Hyphenation keeps word gaps even on this narrow
+// measure; footnotes, tables and captions stay ragged-right.
+.post-content > p,
+.post-content > ul > li,
+.post-content > ol > li {
+  text-align: justify;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  text-wrap: pretty;
+}
+
+// Too few words per line on phones to justify without rivers.
+@media (max-width: 40rem) {
+  .post-content > p,
+  .post-content > ul > li,
+  .post-content > ol > li {
+    text-align: left;
+    hyphens: manual;
+  }
+}
+
+// Anchor targets (TOC links, shared deep links, browser back/forward)
+// land at scroll position 0 by default, which is hidden under the sticky
+// masthead. scroll-margin-top tells the browser to stop short of that.
+.post-content h2,
+.post-content h3 {
+  scroll-margin-top: 5rem;
+}
 
 .post-content h2 {
   font-family: var(--font-display);
@@ -527,38 +666,66 @@ main {
 }
 
 // ----------------------------------------------------------------------
-// Code — recessed parchment well, editorial callout stripe on the left.
-// !important on background overrides syntect's inline #FFFFFF.
+// Code — a recessed panel, wider than the text column and centered on it.
+// Lines never scroll horizontally: at full width every listing fits, and on
+// narrow screens long lines wrap, continuing with a small hanging indent
+// (Zola wraps each source line in a .giallo-l span).
+//
+// Token colors: highlight/notebook.json gives each token role a placeholder
+// color, and with `style = "class"` Zola emits one stable class per role
+// (z-1 comment … z-6 function). They are mapped to the palette above so
+// code follows the theme toggle; the generated giallo.css is never linked.
 // ----------------------------------------------------------------------
 pre {
-  background: var(--color-paper-3) !important;
-  color: var(--color-ink) !important;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
   margin: var(--space-lg) 0;
-  overflow-x: auto;
+  padding: var(--space-sm) var(--space-md);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   font-family: var(--font-data);
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  box-shadow: 0 2px 12px light-dark(
-    oklch(30% 0.03 55 / 0.08),
-    oklch(0% 0 0 / 0.35)
-  );
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  tab-size: 4;
+  color: var(--color-ink);
+  background: var(--color-paper-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
 }
 
+pre code { font: inherit; }
 
-// All code blocks share one width so they read as a coherent visual
-// element rather than a set of blocks that resize per snippet. Sized
-// wider than the prose column, capped at viewport minus a small gutter
-// on narrow screens. Centered on the viewport via the standard
-// left:50% + translateX(-50%) trick.
-.post-content > pre {
-  width: min(52rem, calc(100vw - 2rem));
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+pre .giallo-l {
+  display: inline-block;
+  max-width: 100%;
+  padding-left: 2ch;
+  text-indent: -2ch;
 }
+
+// ASCII diagrams (```text) keep their layout: wrapping would garble them.
+// At full width they fit like everything else; only on phone-width screens
+// do the widest ones scroll sideways.
+pre:has(> code[data-lang="plain"]),
+pre:has(> code:not([data-lang])) {
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: auto;
+}
+
+.post-content pre {
+  // Explicit so `.post-content > * + *` doesn't override the spacing.
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  width: min(var(--code-width), 100vw - 2rem);
+  margin-left: calc((100% - min(var(--code-width), 100vw - 2rem)) / 2);
+}
+
+pre .z-1 { color: var(--code-comment); }
+pre .z-2 { color: var(--code-keyword); }
+pre .z-3 { color: var(--code-string); }
+pre .z-4 { color: var(--code-number); }
+pre .z-5 { color: var(--code-type); }
+pre .z-6 { color: var(--code-fn); }
+pre .z-i { font-style: italic; }
+pre .z-b { font-weight: 700; }
 
 :not(pre) > code {
   background: var(--color-paper-3);
@@ -640,6 +807,16 @@ body > footer a:hover {
   main {
     padding-left: var(--space-md);
     padding-right: var(--space-md);
+  }
+  // Side-by-side with the wordmark is what pushes the nav (and the theme
+  // toggle, last in it) past the viewport edge once the wordmark wraps to
+  // multiple lines — overflow-x:clip on the page then hides it entirely
+  // rather than letting it scroll into view. Stack instead: full width
+  // for each row is more than enough room for both.
+  .masthead__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
   }
   .masthead nav ul { gap: var(--space-sm); }
   .post-title { font-size: var(--text-xl); }

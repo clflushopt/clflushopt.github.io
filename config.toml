@@ -20,8 +20,10 @@ bottom_footnotes = true
 smart_punctuation = true
 
 [markdown.highlighting]
-light_theme = "github-light"
-dark_theme = "ayu-dark"
+# Token roles only; colors live in sass/style.scss (see "Code").
+style = "class"
+theme = "notebook"
+extra_themes = ["highlight/notebook.json"]
 
 [extra]
 # Put all your custom variables here

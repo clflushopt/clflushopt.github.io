@@ -2,17 +2,69 @@
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
 
+{% block extra_head %}
+{% if page.extra.math %}
+{#- Math is pre-rendered at build time (scripts/render-math.mjs); only the
+    stylesheet and its fonts are needed. Keep the version in step with package.json. -#}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.css" integrity="sha384-lPx0C4zIUZLpveABMwOFcFeGZwsvKBJfhJ85FN1PYOV7xApBcFMhcAEMVKF8loOI" crossorigin="anonymous">
+{% endif %}
+{% endblock extra_head %}
+
 {% block content %}
+{% if page.toc %}
+<nav class="post-toc" aria-label="Table of contents">
+    <p class="post-toc__label">Contents</p>
+    {{ <toc_list toc={page.toc} /> }}
+</nav>
+{% endif %}
 <article class="post">
     <header class="post-header">
         <div class="post-meta">
-            <time>{{ page.date | default(value=now()) | date(format="%B %d, %Y") }}</time> · {{ page.reading_time }} min read
+            <time>{{ page.date | default(value=now(), boolean=true) | date(format="%B %d, %Y") }}</time> · {{ page.reading_time }} min read
         </div>
         <h1 class="post-title">{{ page.title }}</h1>
         {% if page.description %}<p class="post-lede">{{ page.description }}</p>{% endif %}
     </header>
     <div class="post-content">
+        {% if page.extra.math %}
+        {% set math = load_data(path="data/math.json") %}
+        {{ <math_apply text={page.content} pairs={math} /> }}
+        {% else %}
         {{ page.content | safe }}
+        {% endif %}
     </div>
 </article>
+{% if page.toc %}
+<script>
+  (function () {
+    var toc = document.querySelector('.post-toc');
+    if (!toc) return;
+    if (!('IntersectionObserver' in window)) return;
+    var links = Array.prototype.slice.call(toc.querySelectorAll('a'));
+    if (!links.length) return;
+    var map = {};
+    links.forEach(function (a) {
+      var id = (a.getAttribute('href') || '').replace(/^#/, '');
+      if (id) map[id] = a;
+    });
+    var headings = Array.prototype.slice.call(
+      document.querySelectorAll('.post-content h2[id], .post-content h3[id]')
+    );
+    if (!headings.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var link = map[entry.target.id];
+        if (!link || !entry.isIntersecting) return;
+        links.forEach(function (a) {
+          a.classList.remove('is-active');
+          a.removeAttribute('aria-current');
+        });
+        link.classList.add('is-active');
+        link.setAttribute('aria-current', 'true');
+      });
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    headings.forEach(function (h) { observer.observe(h); });
+  })();
+</script>
+{% endif %}
 {% endblock content %}

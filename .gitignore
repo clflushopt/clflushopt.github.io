@@ -2,3 +2,5 @@ public
 TODO.md
 content/drafts/
 wip/
+node_modules
+data/math.json

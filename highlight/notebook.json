@@ -1,0 +1,14 @@
+{
+  "name": "notebook",
+  "type": "light",
+  "colors": { "editor.foreground": "#000007", "editor.background": "#00000f" },
+  "tokenColors": [
+    { "scope": ["comment", "punctuation.definition.comment"], "settings": { "foreground": "#000001", "fontStyle": "italic" } },
+    { "scope": ["keyword", "storage", "storage.type", "storage.modifier", "keyword.control", "keyword.other", "variable.language"], "settings": { "foreground": "#000002" } },
+    { "scope": ["string", "constant.character", "string.quoted"], "settings": { "foreground": "#000003" } },
+    { "scope": ["constant.numeric", "constant.language", "constant.other"], "settings": { "foreground": "#000004" } },
+    { "scope": ["entity.name.type", "entity.name.class", "entity.name.struct", "entity.name.enum", "support.type", "support.class", "entity.other.inherited-class"], "settings": { "foreground": "#000005" } },
+    { "scope": ["entity.name.function", "support.function", "meta.function-call", "entity.name.function.macro"], "settings": { "foreground": "#000006" } },
+    { "scope": ["keyword.operator", "punctuation"], "settings": { "foreground": "#000007" } }
+  ]
+}

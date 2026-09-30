@@ -1,0 +1,10 @@
+{#- Swaps each "$$TeX$$" source string in `text` for its pre-rendered KaTeX
+    HTML, one pair per recursive step (a loop can't carry the updated string
+    out in Tera 2). Pairs come from data/math.json, see scripts/render-math.mjs. -#}
+{% component math_apply(text: string, pairs: array) -%}
+{%- if pairs | length > 0 -%}
+{{- <math_apply text={text | replace(from=pairs[0][0], to=pairs[0][1])} pairs={pairs[1:]} /> -}}
+{%- else -%}
+{{- text | safe -}}
+{%- endif -%}
+{%- endcomponent math_apply %}
