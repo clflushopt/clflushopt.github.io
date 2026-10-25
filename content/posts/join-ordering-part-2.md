@@ -1,7 +1,7 @@
 +++
 title = "Join Ordering, Part 2: DPsize, DPsub and DPccp"
 description = "Exploring early enumeration approaches."
-date = 2026-09-27
+date = 2026-10-25
 
 tags = ["databases", "algorithms"]
 +++
