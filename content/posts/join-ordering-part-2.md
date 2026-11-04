@@ -9,10 +9,11 @@ tags = ["databases", "algorithms"]
 *This is Part 2 of the join ordering series, if you haven't read [Part 1](@/posts/join-ordering.md) start there.*
 
 We ended Part 1 with the core problem, the data structures we need and what an optimal algorithm looks like, one that
-spends constant time per [csg-cmp-pair](@/posts/join-ordering.md#the-csg-cmp-pair) and doesn't enumerate anything else.
-This part covers DPsize, DPsub and DPccp from the VLDB 2006 paper. They all fill the same DP table (`DpTable` from
-Part 1) with the cheapest plan producing ⋈S for every connected set S of relations. They differ *only* in how they enumerate
-candidate splits (S₁, S₂), and therefore in how much work they waste on splits that fail the csg-cmp-pair conditions.
+spends constant time per [csg-cmp-pair](@/posts/join-ordering.md#the-csg-cmp-pair) without enumerating the world.
+In this part part we are going to cover three variants of the same underlying idea, all three are from the VLDB 2006
+paper. They all fill the same DP table (`DpTable` from Part 1) with the cheapest plan producing ⋈S for every connected
+set S of relations. They *only* differ in how they enumerate candidate splits (S₁, S₂), and therefore in how much work
+they waste on splits that fail the csg-cmp-pair conditions.
 
 The examples in this part use the three relations from Part 1, the chain R₀ — R₂ — R₁ with its four csg-cmp-pairs.
 
@@ -242,8 +243,8 @@ fn example() -> QueryGraph {
 
 ## DPsize: enumerate by result size
 
-DPsize is System R's strategy generalized to bushy plans: build all plans of size 2, then size 3, and so on; a plan of
-size k is formed from plans of sizes k₁ + k₂ = k. Its candidate space is *pairs of already-built plans with compatible
+DPsize is System R's strategy generalized to bushy plans the idea behind it is to build all plans of size 2, then size 3
+and so on; a plan of size k is formed from plans of sizes k₁ + k₂ = k. Its candidate space is *pairs of already-built plans with compatible
 sizes*, and each candidate is then filtered by the disjointness and connectedness tests.
 
 ```rust
@@ -288,19 +289,19 @@ pub fn dpsize(graph: &QueryGraph) -> (DpTable, u64) {
 ```
 
 The failure mode is visible in how the loop is structured, the pair (s1, s2) is generated *before* the disjointness
-test, so DPsize inspects every pair of connected sets with compatible sizes, including all the overlapping ones. The
-VLDB 2006 analysis quantifies this: on chains DPsize inspects Θ(n⁴) pairs against Θ(n³) csg-cmp-pairs (tolerable), but
-on cliques the inspected pairs grow like ~4ⁿ against ~3ⁿ/2 csg-cmp-pairs, so asymptotically it inspects ≈ (4/3)ⁿ
-candidates per useful pair.
+test so DPsize inspects every pair of connected sets with compatible sizes including all the overlapping ones. In the
+paper the authors include an analysis that quantifies remarking that on chains DPsize inspects Θ(n⁴) pairs against Θ(n³)
+csg-cmp-pairs which is tolerable but on cliques the inspected pairs grow about ~4ⁿ against ~3ⁿ/2 csg-cmp-pairs, asymptotically
+it inspects ≈ (4/3)ⁿ candidates per useful pair.
 
 For the chain from Part 1 DPsize inspects 9 pairs to find the 4 csg-cmp-pairs. At size 2 it inspects the pairs of single
 relations and drops ({R₀}, {R₁}) because there is no edge that connects them. At size 3 it pairs each of the three
-single relations with each of the two connected pairs {R₀, R₂} and {R₂, R₁}, and four of those six overlap.
+single relations with each of the two connected pairs {R₀, R₂} and {R₂, R₁}.
 
 ## DPsub: enumerate by subset
 
 DPsub iterates the *sets* in ascending numeric order (which, as we saw in
-[Part 1](@/posts/join-ordering.md#submask-enumeration), refines the subset order: every S₁ ⊂ S was completed before S)
+[Part 1](@/posts/join-ordering.md#submask-enumeration), refines the subset order: every S₁ ⊂ S is completed before S)
 and splits each connected S into all subset/complement pairs:
 
 ```rust
@@ -342,20 +343,18 @@ pub fn dpsub(graph: &QueryGraph) -> (DpTable, u64) {
 ```
 
 The `min_elem` call in there compiles down to a single [`tzcnt`](https://www.felixcloutier.com/x86/tzcnt) and lets an
-algorithm pick a canonical node out of a set. DPsub uses it to break the symmetry of a split S = S₁ ∪ S₂ by forcing
+the algorithm pick a canonical node out of a set. DPsub uses it to break the symmetry of a split S = S₁ ∪ S₂ by forcing
 min(S) into S₁, so each unordered split is only seen once. DPccp and DPhyp use the same approach to impose a global
-order on subgraphs, they only extend a subgraph towards larger node indices, and that rule is what keeps them from
-enumerating the same pair twice.
+order on subgraphs, they only extend a subgraph towards larger node indices which keeps them from enumerating the same pair twice.
 
-DPsub's waste is dual to DPsize's: it never inspects overlapping pairs (splits are partitions by construction), but it
-inspects every split of every connected set, including the many whose halves are disconnected. On a clique that is
-fine, *every* split of every subset is a csg-cmp-pair and DPsub wastes nothing there (Θ(3ⁿ) splits, matching `#ccp`). On
-a chain almost all of its work is wasted, it does Ω(2ⁿ) work (it must at least skip all subsets) while only Θ(n³)
-csg-cmp-pairs exist.
+DPsub's waste is dual to DPsize's in the sense that it never inspects overlapping pairs (splits are partitions by construction), but it
+does inspect every split of every connected set, including the many whose halves are disconnected. On a clique that is
+fine because *every* split of every subset is a csg-cmp-pair nothing is wasted (Θ(3ⁿ) splits, matching `#ccp`). On a chain almost all
+of its work is wasted because it does Ω(2ⁿ) work (it must at least skip all subsets) while only Θ(n³) csg-cmp-pairs exist.
 
-With the same chain DPsub inspects 5 splits, one each for {R₀, R₂} and {R₂, R₁} and three for {R₀, R₁, R₂}, where
-({R₀, R₁}, {R₂}) fails because {R₀, R₁} isn't connected. That's only one wasted split, but the example is tiny. Here
-is what happens on larger queries:
+With the same chain DPsub inspects 5 splits, one each for {R₀, R₂} and {R₂, R₁} and three for {R₀, R₁, R₂}, where ({R₀, R₁}, {R₂})
+fails because {R₀, R₁} isn't connected. That's only one wasted split, but the example is tiny. To get a sense of how this grows on
+larger queries for large-ish `n` we can calculate the inspected pairs and splits for each one:
 
 ```text
 chain  n=10:  DPsize inspects   1,135 pairs   DPsub inspects    1,981 splits   #ccp =    165
@@ -365,36 +364,35 @@ chain  n=15:  DPsize inspects   5,628 pairs   DPsub inspects   65,399 splits   #
 chain  n=20:  DPsize inspects  17,545 pairs   DPsub inspects 2,096,920 splits  #ccp =  1,330
 ```
 
-DPsub's splits match `#ccp` on the 10-clique and pass 2 million for the 1,330 pairs of the 20-chain. DPsize is the
+DPsub's splits match `#ccp` on the 10-clique and grow over 2 million for the 1,330 pairs of the 20-chain. DPsize is the
 other way around, on chains it stays within a small factor of the useful work but on the 10-clique it inspects about 11
-times more pairs than it needs. Each of them does well where the other one does badly. What we want is an algorithm
+times more pairs than it needs. Each of them does well where the other one does badly so what we want is an algorithm
 that only looks at csg-cmp-pairs regardless of the shape of the graph, which is what DPccp does.
 
 ## DPccp: enumerate exactly the csg-cmp-pairs
 
 DPccp comes at the problem from the other direction. DPsize and DPsub generate candidate pairs and then throw away the
-ones that fail the csg-cmp-pair conditions, DPccp instead walks the query graph and only emits pairs that pass. It
-builds connected subgraphs one at a time and for each one the connected complements that share an edge with it, so it
-emits every csg-cmp-pair once. The DP table is filled along the way, each time a pair is emitted its two halves are
-joined and the result is kept if it's the cheapest plan seen for that set. In the paper each pair costs
-constant time to produce, the code below gives up a bit of that for readability and Part 6 goes through what a
-production version does differently.
+ones that fail the csg-cmp-pair conditions, DPccp instead walks the query graph and only emits pairs that pass the conditions.
+The way it does this is by building connected subgraphs one at a time and for each one the connected complements that share an
+edge with it, so it emits every csg-cmp-pair once. The DP table is filled along the way, each time a pair is emitted its two halves are
+joined and the result is preserved if it's the cheapest plan seen for that set. In the paper each pair costs constant time to produce,
+the code below gives up a bit of that for readability and in Part 6 we will see what an optimized version would look like.
 
 To avoid emitting a pair twice DPccp numbers the nodes v₀ … vₙ₋₁ (breadth-first, see below) and makes every connected
-subgraph S belong to its minimal node: the enumeration starts a subgraph at each node vᵢ and never adds a node with
-index < i to it, the prohibited set includes the prefix Bᵢ = {v₀..vᵢ}. Each S is therefore started from one seed,
-min(S).
+subgraph S belong to its minimal node, the enumeration starts a subgraph at each node vᵢ and never adds a node with
+index < i to it, the prohibited set includes the prefix Bᵢ = {v₀..vᵢ}. Each S is therefore started from one seed, min(S).
 
-A subgraph is extended through its neighborhood. From a current connected set S with prohibited set X, compute the
+A subgraph is extended through its neighborhood. From a current connected set S with prohibited set X, we compute the
 neighborhood N = neighbors(S) \ X. Every S ∪ S′ for non-empty S′ ⊆ N is a *new, connected* superset, emit each. Then
 recurse from each S ∪ S′ with prohibited set X ∪ N: whatever the recursion adds must come from *outside* N, so the same
-final set can never be reached via two different subsets of N. Each connected S is emitted exactly once. (This is
-`EnumerateCsgRec`.)
+final set can never be reached via two different subsets of N. Each connected S is emitted exactly once. (This is `EnumerateCsgRec`.)
 
 For the complements, the same machinery runs again, seeded from each neighbor v of S₁ (in descending index order), with
 the prohibited set now containing B<sub>min(S₁)</sub> ∪ S₁ (complements must have min(S₂) > min(S₁), so each unordered
 pair is emitted once) plus the already-tried smaller neighbors (Bᵥ ∩ N, so complements around different seed neighbors
 cannot collide).
+
+That was a whole lot of words to digest so let's write it down to get a more concrete idea.
 
 ```rust
 /// A statistics struct so we can inspect how much work DPccp does.
@@ -441,8 +439,8 @@ pub fn dpccp(graph: &QueryGraph) -> (DpTable, CcpStats) {
     let mut table = seed_leaves(&g);
     let mut stats = CcpStats::default();
 
-    // Emit a csg-cmp-pair: combine best plans for both sides (both join
-    // orders are relevant for asymmetric cost models; with C_out they tie).
+    // Emit a csg-cmp-pair: combine best plans for both sides both join
+    // orders are relevant for asymmetric cost models.
     fn emit_ccp(g: &QueryGraph, table: &mut DpTable, stats: &mut CcpStats,
                 s1: NodeSet, s2: NodeSet) {
         stats.ccps_emitted += 1;
@@ -534,12 +532,12 @@ pub fn dpccp(graph: &QueryGraph) -> (DpTable, CcpStats) {
 ```
 
 `emit_ccp` calls `combine` for both orders of the inputs, unlike DPsize and DPsub. With C<sub>out</sub> both orders cost
-the same and one call would do, I kept both so the code works unchanged with an asymmetric cost model.
+the same and one call would do however I kept both so the code works unchanged with an asymmetric cost model.
 
 ### Tracing it on our example
 
-DPccp first renumbers the relations breadth-first starting from R₀, so v₀ = R₀, v₁ = R₂ and v₂ = R₁, and the chain
-becomes v₀ — v₁ — v₂. The main loop then seeds every node in descending order:
+Let's apply this to our example. DPccp first renumbers the relations breadth-first starting from R₀, so
+v₀ = R₀, v₁ = R₂ and v₂ = R₁, and the chain becomes v₀ — v₁ — v₂. The main loop then seeds every node in descending order:
 
 - v₂ (R₁) has no neighbors with a larger index, so nothing happens.
 - v₁ (R₂) emits ({R₂}, {R₁}) with its only larger neighbor, then grows to {R₂, R₁}, which has no complement left since
@@ -547,9 +545,8 @@ becomes v₀ — v₁ — v₂. The main loop then seeds every node in descendin
 - v₀ (R₀) emits ({R₀}, {R₂}), grows that complement through R₂'s neighbor to emit ({R₀}, {R₂, R₁}), then grows itself
   to {R₀, R₂} and emits ({R₀, R₂}, {R₁}).
 
-That's the four pairs from Part 1 and nothing else, against 9 candidates for DPsize and 5 for DPsub. By the time
-({R₀}, {R₂, R₁}) is emitted the best plan for {R₂, R₁} is already in the table, because its only split was emitted while
-seeding v₁.
+That's the four pairs from Part 1 against 9 candidates for DPsize and 5 for DPsub. By the time ({R₀}, {R₂, R₁}) is
+emitted the best plan for {R₂, R₁} is already in the table, because its only split was emitted while seeding v₁.
 
 ```rust
 #[test]
@@ -574,30 +571,28 @@ fn dpccp_on_the_example() {
 
 ### Breadth-first numbering
 
-The enumeration is correct for any numbering, turning the renumbering off doesn't change the results on 300 random
-graphs. The paper numbers the nodes breadth-first and I kept that. Our implementation renumbers internally and remaps
-the finished table and plans back, which is an easy step to forget: a first version of this code returned the table in
-renumbered space, and the `three_classic_dps_agree` test below caught it because the *keys* disagreed with DPsub's table
-even though the optimal cost matched.
+Side note, the enumeration is correct for any numbering, turning the renumbering off doesn't change the results however
+because the paper numbers the nodes breadth-first I kept it that way. Our implementation renumbers internally and remaps
+the finished table and plans back, which is an easy step to forget, initially I returned the table in renumbered space
+and the `three_classic_dps_agree` test below caught it because the *keys* disagreed with DPsub's table even though the optimal cost matched.
 
 ### Correctness of the order
 
 When a pair (S₁, S₂) is emitted, `emit_ccp` reads `table[&s1]` and `table[&s2]`, and those entries must already be
-optimal. They are, because the enumeration emits every csg-cmp-pair splitting a set S before any pair in which S itself
-is an operand, and every connected set's optimal plan is completed by the emission of its last split. Pairs
-for S are emitted while growing structures seeded at min(S), and any pair (S, T) using S as an operand is emitted from a
-seed ≤ min(S) with S reachable only after being fully assembled.
+optimal and they are, because the enumeration emits every csg-cmp-pair splitting a set S before any pair in which S itself
+is an operand, and every connected set's optimal plan is completed by the emission of its last split. Pairs for S are emitted
+while growing structures seeded at min(S), and any pair (S, T) using S as an operand is emitted from a seed ≤ min(S) with S
+reachable only after being fully assembled.
 
 ## Comparing the three approaches
 
 `three_classic_dps_agree` and `dpccp_emits_each_pair_once` run DPsize, DPsub and DPccp on about a hundred random graphs
-and check that they find the same optimal cost and plan the same sets, and that DPccp never emits a pair twice.
-To get random graphs without pulling in a crate we use a small xorshift generator:
+and check that they find the same optimal cost and plan the same sets and that DPccp never emits a pair twice.
 
 ```rust
 use std::collections::HashSet;
 
-// tiny deterministic RNG (xorshift) to avoid dependencies
+// tiny deterministic RNG (xorshift)
 struct Rng(u64);
 impl Rng {
     fn next(&mut self) -> u64 {
@@ -707,9 +702,8 @@ fn dpccp_emits_exactly_the_closed_forms() {
 }
 ```
 
-DPccp only handles inner joins with binary predicates. Predicates that touch more than two relations, and non-inner
-joins, do not fit a simple graph, and Part 3 generalizes DPccp to DPhyp, which is what HyPer, Umbra and DuckDB run.
-Part 4 is about queries where even O(`#ccp`) is too much work.
+One limitation of DPccp is that it only handles inner joins with binary predicates. Predicates that touch more than two relations, and non-inner
+joins, do not fit a simple graph in Part 3 we will generalizes DPccp to DPhyp, which is what HyPer, Umbra and DuckDB run.
 
 ## References
 
