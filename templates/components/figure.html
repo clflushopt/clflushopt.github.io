@@ -1,0 +1,19 @@
+{#- Image with optional caption, size and side placement. In Markdown:
+
+    {{ <figure src="photo.png" alt="..." caption="..." size="small" side="right" /> }}
+
+    src      file next to the post's index.md, or an absolute /path or URL
+    alt      alt text (defaults to the caption, without formatting)
+    caption  optional text under the image; inline Markdown allowed
+    size     "small" | "medium" | "wide" (default: code block width)
+    side     "left" | "right", small/medium only; text wraps around it
+-#}
+{% component figure(src: string, alt: string = "", caption: string = "", size: string = "wide", side: string = "") -%}
+{%- set caption_html = caption | markdown(inline=true) -%}
+<figure class="figure figure--{{ size }}{% if side and size != "wide" %} figure--{{ side }}{% endif %}">
+<img src="{{ src }}" alt="{{ alt or (caption_html | striptags) }}" loading="lazy">
+{%- if caption %}
+<figcaption>{{ caption_html | safe }}</figcaption>
+{%- endif %}
+</figure>
+{%- endcomponent figure %}

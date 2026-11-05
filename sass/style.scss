@@ -700,6 +700,24 @@ pre .giallo-l {
   text-indent: -2ch;
 }
 
+// Line numbers (```lang,linenos,linenostart=N): a muted, unselectable
+// gutter. The hanging indent widens to clear it so wrapped lines still
+// sit 2ch past the start of the code.
+pre .giallo-l:has(> .giallo-ln) {
+  padding-left: 8ch;
+  text-indent: -8ch;
+}
+
+pre .giallo-ln {
+  display: inline-block;
+  min-width: 4ch;
+  margin-right: 2ch;
+  text-align: right;
+  text-indent: 0;
+  color: var(--color-muted);
+  user-select: none;
+}
+
 // ASCII diagrams (```text) keep their layout: wrapping would garble them.
 // At full width they fit like everything else; only on phone-width screens
 // do the widest ones scroll sideways.
@@ -716,6 +734,21 @@ pre:has(> code:not([data-lang])) {
   margin-bottom: var(--space-lg);
   width: min(var(--code-width), 100vw - 2rem);
   margin-left: calc((100% - min(var(--code-width), 100vw - 2rem)) / 2);
+}
+
+// Standalone images (a Markdown image on its own line renders as
+// <p><img></p>) break out of the prose column to match code block width.
+.post-content > p:has(> img:only-child) {
+  max-width: none;
+  width: min(var(--code-width), 100vw - 2rem);
+  margin-left: calc((100% - min(var(--code-width), 100vw - 2rem)) / 2);
+}
+
+.post-content > p > img:only-child {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
 }
 
 pre .z-1 { color: var(--code-comment); }
@@ -766,6 +799,84 @@ figure.diagram figcaption {
 
 figure.diagram figcaption code {
   font-style: normal;
+}
+
+// ----------------------------------------------------------------------
+// Figures — the `figure` component (templates/components/figure.html).
+// wide: code block width. small/medium: inside the prose column, either
+// centered or floated left/right with the text wrapping around them.
+// ----------------------------------------------------------------------
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.figure figcaption {
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.figure figcaption code { font-style: normal; }
+
+.post-content > .figure--wide {
+  width: min(var(--code-width), 100vw - 2rem);
+  margin-left: calc((100% - min(var(--code-width), 100vw - 2rem)) / 2);
+}
+
+.post-content > .figure--small,
+.post-content > .figure--medium {
+  // Centered on the prose column (which is left-aligned in .post-content).
+  margin-inline: auto calc(max(0px, 100% - var(--maxw-prose)) + (min(100%, var(--maxw-prose)) - var(--fig-w)) / 2);
+  width: var(--fig-w);
+}
+
+.figure--small  { --fig-w: min(35%, 16rem); }
+.figure--medium { --fig-w: min(50%, 24rem); }
+
+.post-content > .figure--left,
+.post-content > .figure--right {
+  margin-top: var(--space-2xs);
+  margin-bottom: var(--space-sm);
+}
+
+.post-content > .figure--left {
+  float: left;
+  margin-inline: 0 var(--space-lg);
+}
+
+.post-content > .figure--right {
+  float: right;
+  // Align with the prose column's right edge, not the container's.
+  margin-inline: var(--space-lg) max(0px, 100% - var(--maxw-prose));
+}
+
+.figure--left figcaption,
+.figure--right figcaption { text-align: left; }
+
+// Headings, code and wide blocks never sit beside a floated figure.
+.post-content > h2,
+.post-content > h3,
+.post-content > h4,
+.post-content > pre,
+.post-content > .figure--wide,
+.post-content > figure.diagram { clear: both; }
+
+// Too narrow to wrap text around an image: stack it instead.
+@media (max-width: 40rem) {
+  .figure--small  { --fig-w: 60%; }
+  .figure--medium { --fig-w: 85%; }
+
+  .post-content > .figure--left,
+  .post-content > .figure--right {
+    float: none;
+    margin-inline: auto;
+    margin-block: var(--space-md);
+  }
 }
 
 // ----------------------------------------------------------------------
