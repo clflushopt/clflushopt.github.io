@@ -14,3 +14,4 @@ investigating [how CPUs behave](https://github.com/clflushopt/uarch-xyz) and [al
 
 In a previous life I worked on implementing cryptography libraries and numerical solvers in C++.
 
+For corrections, suggestions or questions about posts or my work don't hesitate to reach me by email clflushopt [at] deferworks [dot] org.
